@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nurse Care | منصة التمريض</title>
+<meta name="description" content="Nurse Care منصة تعليمية عصرية لطلبة التمريض">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=DM+Sans:wght@500;600;700&display=swap');
+
+:root{
+  --ink:#102a2e;
+  --muted:#607579;
+  --paper:#f7fbfa;
+  --card:#ffffff;
+  --line:#dcebea;
+  --teal:#087f7a;
+  --teal-2:#0da69f;
+  --mint:#dff5ef;
+  --coral:#ff755f;
+  --yellow:#f6c84c;
+  --shadow:0 20px 60px rgba(16,42,46,.10);
+  --radius:28px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 8%, rgba(13,166,159,.10), transparent 28%),
+    radial-gradient(circle at 92% 18%, rgba(255,117,95,.09), transparent 25%),
+    var(--paper);
+  font-family:"Cairo",sans-serif;
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+
+.nav{
+  width:min(1180px,92%);
+  margin:18px auto 0;
+  padding:13px 15px 13px 20px;
+  border:1px solid rgba(220,235,234,.9);
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(18px);
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  position:sticky;
+  top:14px;
+  z-index:20;
+  box-shadow:0 10px 35px rgba(16,42,46,.07);
+}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;white-space:nowrap}
+.brand-mark{
+  width:43px;height:43px;border-radius:14px;
+  display:grid;place-items:center;
+  color:white;background:var(--ink);
+  box-shadow:0 8px 20px rgba(16,42,46,.18);
+  font-size:21px;
+}
+.brand small{display:block;color:var(--muted);font-size:10px;font-weight:600;margin-top:-3px}
+.nav-links{display:flex;align-items:center;gap:7px}
+.nav-links a{padding:10px 14px;border-radius:12px;color:#476166;font-size:14px;font-weight:600}
+.nav-links a:hover,.nav-links a.active{background:var(--mint);color:var(--teal)}
+.nav-cta{
+  background:var(--ink);color:#fff!important;
+  padding:11px 17px!important;border-radius:14px!important;
+}
+
+.hero{
+  width:min(1180px,92%);
+  min-height:650px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  align-items:center;
+  gap:70px;
+  position:relative;
+}
+.hero-copy{padding:70px 0}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 12px;
+  background:var(--mint);
+  border:1px solid #c7e8e1;
+  border-radius:999px;
+  color:var(--teal);
+  font-size:12px;font-weight:800;
+}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--coral);display:block}
+.hero h1{
+  font-size:clamp(42px,5.3vw,74px);
+  line-height:1.05;
+  letter-spacing:-2.5px;
+  margin:20px 0 20px;
+  max-width:700px;
+}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{
+  color:var(--muted);
+  max-width:610px;
+  font-size:17px;
+  line-height:2;
+  margin:0 0 30px;
+}
+.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.primary,.secondary{
+  border-radius:15px;padding:13px 20px;font-weight:800;font-size:14px;
+  display:inline-flex;align-items:center;gap:9px;transition:.25s;
+}
+.primary{background:var(--teal);color:white;box-shadow:0 12px 28px rgba(8,127,122,.22)}
+.secondary{border:1px solid var(--line);background:white;color:var(--ink)}
+.primary:hover,.secondary:hover{transform:translateY(-3px)}
+.stats{display:flex;gap:28px;margin-top:38px}
+.stat strong{display:block;font-size:24px;font-family:"DM Sans",sans-serif}
+.stat span{font-size:12px;color:var(--muted)}
+
+.visual{position:relative;height:520px;display:grid;place-items:center}
+.blob{
+  width:390px;height:390px;border-radius:44% 56% 62% 38% / 42% 42% 58% 58%;
+  background:linear-gradient(145deg,#dff5ef,#bce7df);
+  position:absolute;
+  transform:rotate(-9deg);
+}
+.med-card{
+  width:330px;
+  position:relative;
+  z-index:2;
+  background:rgba(255,255,255,.93);
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:30px;
+  padding:23px;
+  box-shadow:var(--shadow);
+  transform:rotate(3deg);
+}
+.med-top{display:flex;justify-content:space-between;align-items:center}
+.med-label{font-size:11px;color:var(--muted)}
+.pulse{color:var(--coral);font-weight:800;font-size:12px}
+.heart{
+  height:185px;border-radius:22px;
+  margin:18px 0;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,#fff3f0,#ffe4df);
+  font-size:82px;
+  position:relative;overflow:hidden;
+}
+.heart:after{
+  content:"";position:absolute;width:140px;height:140px;border:1px solid rgba(255,117,95,.22);
+  border-radius:50%;
+}
+.med-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mini{background:#f5f9f8;border-radius:16px;padding:13px}
+.mini b{font-family:"DM Sans";font-size:20px}
+.mini span{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.float{
+  position:absolute;z-index:3;background:white;border:1px solid var(--line);
+  border-radius:18px;padding:12px 15px;box-shadow:0 12px 35px rgba(16,42,46,.11);
+  font-size:12px;font-weight:800;
+}
+.f1{top:95px;right:8px}.f2{bottom:92px;left:8px}
+.f3{bottom:25px;right:42px;background:var(--ink);color:white;border:0}
+
+.section{width:min(1180px,92%);margin:0 auto;padding:85px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:30px}
+.section-head h2{font-size:34px;line-height:1.15;margin:0;letter-spacing:-1px}
+.section-head p{color:var(--muted);font-size:14px;max-width:430px;line-height:1.9;margin:0}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:24px;
+  padding:24px;min-height:245px;transition:.25s;position:relative;overflow:hidden;
+}
+.card:before{
+  content:"";position:absolute;inset:auto -30px -55px auto;width:120px;height:120px;
+  border-radius:50%;background:var(--mint);opacity:.65;
+}
+.card:hover{transform:translateY(-7px);box-shadow:var(--shadow);border-color:#c3e1dc}
+.icon{
+  width:49px;height:49px;border-radius:15px;display:grid;place-items:center;
+  background:var(--mint);font-size:23px;margin-bottom:35px;position:relative;
+}
+.card:nth-child(2) .icon{background:#fff1d0}
+.card:nth-child(3) .icon{background:#ffe7e2}
+.card:nth-child(4) .icon{background:#e9e8ff}
+.card h3{font-size:18px;margin:0 0 9px}
+.card p{color:var(--muted);font-size:13px;line-height:1.9;margin:0}
+
+.search-panel{
+  background:var(--ink);color:white;border-radius:32px;padding:35px;
+  display:grid;grid-template-columns:1fr 1.3fr;align-items:center;gap:35px;
+  box-shadow:var(--shadow);
+}
+.search-panel h2{font-size:28px;margin:0 0 7px}
+.search-panel p{color:#b8cbcc;font-size:13px;margin:0;line-height:1.8}
+.search-box{display:flex;background:white;border-radius:16px;padding:6px;gap:6px}
+.search-box input{border:0;outline:0;flex:1;padding:12px 14px;color:var(--ink);min-width:0}
+.search-box button{
+  border:0;background:var(--teal);color:white;border-radius:12px;
+  padding:11px 20px;font-weight:800;cursor:pointer;
+}
+
+footer{
+  margin-top:30px;background:var(--ink);color:white;
+  padding:55px 4%;
+}
+.footer-inner{width:min(1180px,92%);margin:auto;display:flex;justify-content:space-between;gap:30px;align-items:start}
+.footer-brand{max-width:400px}
+.footer-brand p{color:#a9bec0;line-height:1.9;font-size:13px}
+.footer-links{display:flex;gap:30px;color:#b8cbcc;font-size:13px}
+.footer-links a:hover{color:white}
+.copy{width:min(1180px,92%);margin:40px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);color:#789093;font-size:11px}
+
+#darkBtn{
+  position:fixed;bottom:20px;left:20px;width:48px;height:48px;
+  border:1px solid var(--line);border-radius:16px;background:white;color:var(--ink);
+  cursor:pointer;z-index:30;box-shadow:0 10px 30px rgba(16,42,46,.12);
+}
+
+body.dark-mode{
+  --ink:#e7f3f1;--muted:#9bb2b2;--paper:#091718;--card:#102122;--line:#1e3b3c;
+  --mint:#123a38;--teal:#39c8bd;
+  background:radial-gradient(circle at 8% 8%,rgba(57,200,189,.09),transparent 28%),#091718;
+}
+body.dark-mode .nav{background:rgba(16,33,34,.85)}
+body.dark-mode .secondary,body.dark-mode #darkBtn{background:#102122;color:#e7f3f1}
+body.dark-mode .search-box{background:#102122}
+body.dark-mode .search-box input{background:#102122;color:#e7f3f1}
+body.dark-mode .med-card,.dark-mode .float{background:#102122;border-color:#1e3b3c}
+body.dark-mode .mini{background:#0b1a1b}
+body.dark-mode .hero p,body.dark-mode .card p{color:#9bb2b2}
+
+@media(max-width:900px){
+  .nav-links a:not(.nav-cta){display:none}
+  .hero{grid-template-columns:1fr;gap:10px;padding-top:20px}
+  .hero-copy{padding:55px 0 0}
+  .visual{height:450px}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .search-panel{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .nav{width:94%}
+  .hero,.section{width:90%}
+  .hero h1{letter-spacing:-1.5px}
+  .stats{gap:18px}
+  .visual{transform:scale(.88);margin:-30px 0}
+  .grid{grid-template-columns:1fr}
+  .section{padding:65px 0}
+  .section-head{display:block}
+  .section-head p{margin-top:12px}
+  .search-panel{padding:25px}
+  .search-box{display:block}
+  .search-box input{width:100%}
+  .search-box button{width:100%;margin-top:5px}
+  .footer-inner{display:block}
+  .footer-links{margin-top:25px;flex-wrap:wrap}
+}
+
+.ai-box{
+  background:var(--card);border:1px solid var(--line);border-radius:30px;
+  overflow:hidden;box-shadow:var(--shadow);
+}
+.ai-head{
+  display:flex;align-items:center;gap:12px;padding:18px 20px;
+  border-bottom:1px solid var(--line);background:rgba(223,245,239,.45);
+}
+.ai-avatar{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+  background:var(--ink);color:white;font-size:21px;
+}
+.ai-head strong{display:block;font-size:15px}
+.ai-head span{display:block;color:var(--muted);font-size:11px}
+.ai-status{margin-right:auto!important;display:flex!important;align-items:center;gap:6px;color:var(--teal)!important;font-weight:700}
+.ai-status i{width:7px;height:7px;background:#23b26d;border-radius:50%;display:block}
+.ai-messages{min-height:190px;max-height:420px;overflow:auto;padding:20px}
+.ai-message{
+  max-width:86%;padding:13px 16px;border-radius:18px;margin:8px 0;
+  line-height:1.9;font-size:13px;white-space:pre-wrap;
+}
+.ai-message p{margin:5px 0}
+.ai-message.assistant{background:#f1f8f6;margin-left:auto;margin-right:0}
+.ai-message.user{background:var(--ink);color:white;margin-right:auto;margin-left:0}
+.ai-message.user b{color:#bce7df}
+.ai-suggestions{display:flex;gap:8px;flex-wrap:wrap;padding:0 20px 14px}
+.ai-suggestions button{
+  border:1px solid var(--line);background:transparent;color:var(--ink);
+  padding:8px 12px;border-radius:999px;cursor:pointer;font-size:11px;
+}
+.ai-suggestions button:hover{border-color:var(--teal);background:var(--mint)}
+.ai-form{display:flex;gap:8px;padding:15px 20px;border-top:1px solid var(--line)}
+.ai-form textarea{
+  flex:1;resize:none;border:1px solid var(--line);border-radius:16px;
+  padding:12px 14px;outline:none;background:var(--paper);color:var(--ink);
+}
+.ai-form textarea:focus{border-color:var(--teal)}
+.ai-form button{
+  align-self:stretch;border:0;border-radius:15px;padding:0 20px;
+  background:var(--teal);color:white;font-weight:800;cursor:pointer;
+}
+.ai-form button:disabled{opacity:.55;cursor:wait}
+.ai-note{padding:0 20px 18px;color:var(--muted);font-size:10px}
+body.dark-mode .ai-head{background:#12302f}
+body.dark-mode .ai-message.assistant{background:#132b2c}
+body.dark-mode .ai-form textarea{background:#0b1a1b}
+
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="#">
+    <span class="brand-mark">✚</span>
+    <span>Nurse Care<small>تعلم التمريض بوضوح</small></span>
+  </a>
+  <nav class="nav-links">
+    <a class="active" href="#">الرئيسية</a>
+    <a href="cours.html">الدروس</a>
+    <a href="premiers-secours.html">الإسعافات</a>
+    <a href="techniques.html">التقنيات</a>
+    <a class="nav-cta" href="contact.html">تواصل معنا</a>
+  </nav>
+</header>
+
+
+<style id="live-search-style">
+.search-results{
+  position:fixed; inset:0; z-index:100;
+  background:rgba(7,22,23,.58); backdrop-filter:blur(8px);
+  display:none; align-items:flex-start; justify-content:center;
+  padding:90px 18px 30px;
+}
+.search-results.open{display:flex}
+.search-results-box{
+  width:min(760px,100%); max-height:78vh; overflow:auto;
+  background:var(--card); color:var(--ink);
+  border:1px solid var(--line); border-radius:26px;
+  box-shadow:0 30px 100px rgba(0,0,0,.28); padding:22px;
+}
+.search-results-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:15px;margin-bottom:15px;
+}
+.search-results-head strong{font-size:18px}
+.close-search{
+  border:0;background:var(--mint);color:var(--ink);
+  width:38px;height:38px;border-radius:12px;cursor:pointer;font-size:18px;
+}
+.result-item{
+  display:block;padding:16px;border:1px solid var(--line);
+  border-radius:17px;margin:9px 0;background:var(--card);
+  transition:.2s;
+}
+.result-item:hover{transform:translateY(-2px);border-color:var(--teal)}
+.result-item b{display:block;margin-bottom:4px}
+.result-item span{font-size:12px;color:var(--muted);line-height:1.8}
+.no-results{padding:30px;text-align:center;color:var(--muted)}
+</style>
+<div class="search-results" id="searchResults" onclick="closeSearch(event)">
+  <div class="search-results-box" onclick="event.stopPropagation()">
+    <div class="search-results-head">
+      <strong id="searchResultsTitle">نتائج البحث</strong>
+      <button class="close-search" onclick="closeSearch()">×</button>
+    </div>
+    <div id="searchResultsList"></div>
+  </div>
+</div>
+<main>
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow"><i></i> منصة تعليمية لطلبة التمريض</span>
+    <h1>تعلم التمريض<br><em>بطريقة أبسط.</em></h1>
+    <p>
+      دروس، ملخصات، تقنيات وإسعافات أولية في تجربة تعليمية منظمة.
+      ركّز على الفكرة المهمة، راجع بسرعة، وابنِ معرفتك خطوة بخطوة.
+    </p>
+    <div class="actions">
+      <a class="primary" href="#domains">استكشف المحتوى <span>←</span></a>
+      <a class="secondary" href="cours.html">ابدأ بالدروس</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>01</strong><span>تعلم منظم</span></div>
+      <div class="stat"><strong>04</strong><span>مجالات أساسية</span></div>
+      <div class="stat"><strong>24/7</strong><span>مراجعة في أي وقت</span></div>
+    </div>
+  </div>
+
+  <div class="visual" aria-hidden="true">
+    <div class="blob"></div>
+    <div class="float f1">♥ نبض المعرفة</div>
+    <div class="float f2">✓ مراجعة أسهل</div>
+    <div class="float f3">NURSING / 2026</div>
+    <div class="med-card">
+      <div class="med-top">
+        <div><strong>Nurse Care</strong><div class="med-label">لوحة التعلّم</div></div>
+        <span class="pulse">● LIVE</span>
+      </div>
+      <div class="heart">♥</div>
+      <div class="med-row">
+        <div class="mini"><b>01</b><span>الدروس</span></div>
+        <div class="mini"><b>04</b><span>المجالات</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h2>لماذا Nurse Care؟</h2>
+    <p>واجهة مصممة حول طريقة دراسة طالب التمريض: معلومة واضحة، تنظيم جيد، ووصول سريع للمحتوى.</p>
+  </div>
+  <div class="grid">
+    <article class="card"><div class="icon">◎</div><h3>تعلم سهل</h3><p>معلومات مبسطة ومنظمة تساعدك على فهم الدروس بدل تشتيتك بين التفاصيل.</p></article>
+    <article class="card"><div class="icon">▤</div><h3>محتوى منظم</h3><p>الدروس والملخصات والأسئلة مرتبة لتسهيل المراجعة والوصول إلى ما تحتاجه.</p></article>
+    <article class="card"><div class="icon">✚</div><h3>خاص بالتمريض</h3><p>محتوى موجّه لطلبة التمريض ومسارهم الدراسي، من الأساسيات إلى التقنيات.</p></article>
+    <article class="card"><div class="icon">◌</div><h3>فهم أفضل</h3><p>أسلوب بصري ومرتب يجعل المعلومة الصحية أسهل في القراءة والاستيعاب.</p></article>
+  </div>
+</section>
+
+<section class="section" id="domains">
+  <div class="section-head">
+    <h2>ماذا ستجد هنا؟</h2>
+    <p>أقسام واضحة بدل صفحة مزدحمة. كل قسم يقودك مباشرة إلى نوع المحتوى الذي تبحث عنه.</p>
+  </div>
+  <div class="grid">
+    <a class="card" href="cours.html"><div class="icon">▤</div><h3>دروس التمريض</h3><p>دروس وملخصات تساعد طلبة التمريض على المراجعة بطريقة مرتبة.</p></a>
+    <a class="card" href="premiers-secours.html"><div class="icon">＋</div><h3>الإسعافات الأولية</h3><p>معلومات تعليمية حول مبادئ الإسعافات الأولية وخطواتها الأساسية.</p></a>
+    <a class="card" href="techniques.html"><div class="icon">⌁</div><h3>تقنيات التمريض</h3><p>التعرف على مختلف تقنيات ومهارات التمريض ضمن محتوى واضح.</p></a>
+    <a class="card" href="systemes.html"><div class="icon">◉</div><h3>معلومات صحية</h3><p>محتوى صحي وتعليمي مبسط حول الجسم وأجهزته ومفاهيمه الأساسية.</p></a>
+  </div>
+</section>
+
+
+<section class="section" id="ai-assistant">
+  <div class="section-head">
+    <h2>مساعد Nurse Care الذكي</h2>
+    <p>اكتب سؤالك في التمريض، وسيرد عليك الذكاء الاصطناعي مباشرة. يمكنه أيضاً البحث في الويب عند الحاجة إلى معلومات حديثة.</p>
+  </div>
+
+  <div class="ai-box">
+    <div class="ai-head">
+      <div class="ai-avatar">✦</div>
+      <div>
+        <strong>Nurse Care AI</strong>
+        <span>مساعد تعليمي للتمريض</span>
+      </div>
+      <span class="ai-status"><i></i> متصل</span>
+    </div>
+
+    <div id="aiMessages" class="ai-messages">
+      <div class="ai-message assistant">
+        <b>Nurse Care AI</b>
+        <p>مرحباً. اكتب سؤالك، مثل: «ما هي علامات نقص الأكسجين؟» أو «اشرح لي قياس ضغط الدم بطريقة مبسطة».</p>
+      </div>
+    </div>
+
+    <div class="ai-suggestions">
+      <button onclick="askAI('ما هي العلامات الحيوية وما هي القيم الطبيعية تقريباً؟')">العلامات الحيوية</button>
+      <button onclick="askAI('اشرح لي الإسعافات الأولية للنزيف بشكل تعليمي')">الإسعافات الأولية</button>
+      <button onclick="askAI('اشرح لي طريقة قياس ضغط الدم للطالب بشكل مبسط')">قياس الضغط</button>
+    </div>
+
+    <form class="ai-form" id="aiForm">
+      <textarea id="aiInput" rows="2" placeholder="اكتب سؤالك هنا..." aria-label="سؤال للذكاء الاصطناعي"></textarea>
+      <button type="submit" id="aiSend">إرسال <span>←</span></button>
+    </form>
+    <div class="ai-note">المحتوى تعليمي ولا يَستبدل تقييم الطبيب أو بروتوكولات المؤسسة الصحية.</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="search-panel">
+    <div>
+      <h2>ابحث عن المعلومة.</h2>
+      <p>اكتب اسم الدرس أو المجال للوصول إلى القسم المناسب.</p>
+    </div>
+    <div class="search-box">
+      <input id="searchInput" type="text" placeholder="مثال: الإسعافات، درس، تقنيات..." aria-label="البحث">
+      <button onclick="searchSite()">بحث</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="brand"><span class="brand-mark">✚</span><span>Nurse Care<small>تعلم التمريض بوضوح</small></span></div>
+      <p>منصة تعليمية للتمريض تجمع الدروس، المراجعة، الإسعافات الأولية وتقنيات التمريض في مكان واحد.</p>
+    </div>
+    <div class="footer-links">
+      <a href="cours.html">الدروس</a>
+      <a href="premiers-secours.html">الإسعافات</a>
+      <a href="techniques.html">التقنيات</a>
+      <a href="contact.html">تواصل معنا</a>
+    </div>
+  </div>
+  <div class="copy">© 2026 Nurse Care — جميع الحقوق محفوظة</div>
+</footer>
+
+<button onclick="toggleDarkMode()" id="darkBtn" aria-label="تغيير المظهر">◐</button>
+
+<script>
+const searchIndex = [
+  {title:"دروس التمريض", text:"دروس وملخصات التمريض والمراجعة", page:"cours.html", keys:["درس","دروس","تمريض","nursing","cours"]},
+  {title:"الإسعافات الأولية", text:"مبادئ الإسعافات الأولية والطوارئ", page:"premiers-secours.html", keys:["إسعاف","اسعاف","إسعافات","اسعافات","طوارئ","secours","first aid"]},
+  {title:"تقنيات التمريض", text:"تقنيات ومهارات التمريض", page:"techniques.html", keys:["تقنية","تقنيات","مهارة","مهارات","technique"]},
+  {title:"الجسم وأجهزته", text:"معلومات صحية وتشريح وأجهزة الجسم", page:"systemes.html", keys:["جسم","أجهزة","جهاز","تشريح","anatomie","systeme"]}
+];
+
+function searchSite(){
+  const input = document.getElementById("searchInput");
+  const query = input.value.trim().toLowerCase();
+
+  if(!query){
+    input.focus();
+    return;
+  }
+
+  const results = searchIndex.filter(item => {
+    const haystack = (item.title + " " + item.text + " " + item.keys.join(" ")).toLowerCase();
+    return haystack.includes(query) || item.keys.some(k => query.includes(k) || k.includes(query));
+  });
+
+  const list = document.getElementById("searchResultsList");
+  const title = document.getElementById("searchResultsTitle");
+  title.textContent = `نتائج البحث عن: ${input.value.trim()}`;
+
+  if(results.length){
+    list.innerHTML = results.map(item => `
+      <a class="result-item" href="${item.page}?q=${encodeURIComponent(input.value.trim())}">
+        <b>${item.title}</b>
+        <span>${item.text}</span>
+      </a>
+    `).join("");
+  }else{
+    list.innerHTML = `
+      <div class="no-results">
+        لم نجد نتيجة مطابقة في الأقسام الرئيسية.<br>
+        سيتم فتح صفحة الدروس بالبحث الذي كتبته.
+        <br><br>
+        <a class="primary" style="display:inline-flex" href="cours.html?q=${encodeURIComponent(input.value.trim())}">
+          فتح البحث في الدروس
+        </a>
+      </div>`;
+  }
+
+  document.getElementById("searchResults").classList.add("open");
+}
+
+function closeSearch(event){
+  if(event && event.target !== event.currentTarget) return;
+  document.getElementById("searchResults").classList.remove("open");
+}
+document.getElementById("searchInput").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    e.preventDefault();
+    searchSite();
+  }
+  if(e.key === "Escape") closeSearch();
+});
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape") closeSearch();
+});
+function toggleDarkMode(){
+  document.body.classList.toggle("dark-mode");
+  document.getElementById("darkBtn").textContent =
+    document.body.classList.contains("dark-mode") ? "☀" : "◐";
+}
+
+const aiForm = document.getElementById("aiForm");
+const aiInput = document.getElementById("aiInput");
+const aiMessages = document.getElementById("aiMessages");
+const aiSend = document.getElementById("aiSend");
+
+function addAIMessage(role, text){
+  const div = document.createElement("div");
+  div.className = "ai-message " + role;
+  div.innerHTML = `<b>${role === "user" ? "أنت" : "Nurse Care AI"}</b><p></p>`;
+  div.querySelector("p").textContent = text;
+  aiMessages.appendChild(div);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+  return div;
+}
+
+async function askAI(question){
+  const q = String(question || "").trim();
+  if(!q || aiSend.disabled) return;
+
+  addAIMessage("user", q);
+  aiInput.value = "";
+  aiSend.disabled = true;
+  aiSend.textContent = "جاري التفكير...";
+
+  const loading = addAIMessage("assistant", "جاري البحث وتحليل السؤال...");
+
+  try{
+    const response = await fetch("/api/ask", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({question:q})
+    });
+
+    const data = await response.json();
+    if(!response.ok) throw new Error(data.error || "حدث خطأ في الاتصال.");
+
+    loading.querySelector("p").textContent = data.answer || "لم يصل رد.";
+  }catch(error){
+    loading.querySelector("p").textContent =
+      "تعذر الاتصال بالذكاء الاصطناعي. تأكد من تشغيل الخادم وإعداد OPENAI_API_KEY.";
+  }finally{
+    aiSend.disabled = false;
+    aiSend.innerHTML = 'إرسال <span>←</span>';
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+  }
+}
+
+aiForm.addEventListener("submit", function(e){
+  e.preventDefault();
+  askAI(aiInput.value);
+});
+
+</script>
+</body>
+</html>
