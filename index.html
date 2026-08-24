@@ -30,12 +30,26 @@ button{font-family:inherit;cursor:pointer}
 h1,h2,h3,.brand{font-family:'Reem Kufi',sans-serif}
 
 /* ---------- signature motif: pulse line ---------- */
-.pulse-divider{width:100%;height:34px;overflow:hidden}
+.pulse-divider{width:100%;height:34px;overflow:hidden;position:relative}
 .pulse-divider svg{width:100%;height:100%}
 .pulse-line{fill:none;stroke:var(--line);stroke-width:1.5}
-.pulse-line.live{stroke:var(--accent);stroke-width:2;stroke-dasharray:340;stroke-dashoffset:340;animation:draw 2.6s ease-out forwards}
+.pulse-line.live{stroke:var(--accent);stroke-width:2;stroke-dasharray:340;stroke-dashoffset:340;animation:draw 2.2s ease-out forwards}
+.pulse-line.sweep{stroke:var(--accent);stroke-width:2;stroke-dasharray:60 1100;stroke-dashoffset:0;opacity:0;animation:sweep 3.6s linear 2.4s infinite}
 @keyframes draw{to{stroke-dashoffset:0}}
-@media(prefers-reduced-motion:reduce){.pulse-line.live{animation:none;stroke-dashoffset:0}}
+@keyframes sweep{0%{stroke-dashoffset:1160;opacity:.9}96%{opacity:.9}100%{stroke-dashoffset:0;opacity:0}}
+@media(prefers-reduced-motion:reduce){.pulse-line.live{animation:none;stroke-dashoffset:0}.pulse-line.sweep{animation:none;display:none}}
+
+/* ---------- reveal on scroll ---------- */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.grid .card.reveal:nth-child(1){transition-delay:.02s}
+.grid .card.reveal:nth-child(2){transition-delay:.1s}
+.grid .card.reveal:nth-child(3){transition-delay:.18s}
+.grid .card.reveal:nth-child(4){transition-delay:.26s}
+#lessonList .lcard.reveal:nth-child(1){transition-delay:.02s}
+#lessonList .lcard.reveal:nth-child(2){transition-delay:.1s}
+#lessonList .lcard.reveal:nth-child(3){transition-delay:.18s}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
 /* ---------- header ---------- */
 header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -43,11 +57,16 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.15rem;letter-spacing:.01em}
 .logo .plus{width:34px;height:34px;border-radius:9px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:1.05rem;flex:none}
 .logo small{display:block;font-family:'IBM Plex Sans Arabic',sans-serif;font-weight:400;color:var(--muted);font-size:.68rem;margin-top:2px}
-.links{display:flex;gap:4px;margin-inline-start:auto;align-items:center}
-.links a{padding:9px 15px;border-radius:8px;font-size:.9rem;color:var(--ink-soft);cursor:pointer;position:relative;transition:color .15s ease}
+.links{display:flex;gap:2px;margin-inline-start:auto;align-items:center}
+.links a{padding:8px 12px;border-radius:8px;font-size:.86rem;color:var(--ink-soft);cursor:pointer;position:relative;transition:color .15s ease;white-space:nowrap}
 .links a:hover{color:var(--ink)}
+.links a::after{content:"";position:absolute;bottom:-2px;right:15px;left:15px;height:2px;background:var(--ink-soft);transform:scaleX(0);transform-origin:center;transition:transform .25s ease,background .25s ease}
+.links a:hover::after{transform:scaleX(1)}
 .links a.active{color:var(--accent);font-weight:600}
-.links a.active::after{content:"";position:absolute;bottom:-2px;right:15px;left:15px;height:2px;background:var(--accent)}
+.links a.active::after{background:var(--accent);transform:scaleX(1)}
+.links a.cta::after{display:none}
+.logo .plus{transition:transform .35s ease}
+.logo:hover .plus{transform:rotate(90deg)}
 .links a.cta{background:var(--ink);color:var(--paper)!important;font-weight:600;padding:9px 20px;border-radius:8px}
 .links a.cta:hover{background:var(--accent)}
 .burger{display:none;margin-inline-start:auto;background:none;border:none;font-size:1.4rem;color:var(--ink)}
@@ -60,8 +79,9 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 
 /* ---------- pages ---------- */
 .page{display:none}
-.page.show{display:block;animation:fade .4s ease}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.page.show{display:block;animation:fade .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.page.show{animation:none}}
 .wrap{max-width:1160px;margin:auto;padding:0 20px}
 
 /* ---------- hero ---------- */
@@ -72,12 +92,16 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 .hero h1{font-size:clamp(2rem,5vw,3.3rem);font-weight:700;margin:22px 0 14px;line-height:1.25}
 .hero h1 em{color:var(--accent);font-style:normal}
 .hero p{color:var(--muted);max-width:600px;margin:0 auto 30px;line-height:2;font-size:1.02rem}
-.btn{display:inline-block;background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:14px 30px;font-weight:600;font-size:.95rem;transition:.2s}
-.btn:hover{background:var(--accent);transform:translateY(-2px)}
+.btn{display:inline-block;position:relative;overflow:hidden;background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:14px 30px;font-weight:600;font-size:.95rem;transition:transform .25s ease,background .25s ease,box-shadow .25s ease}
+.btn::before{content:"";position:absolute;top:0;bottom:0;right:-60%;width:40%;background:linear-gradient(115deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);transition:right .55s ease}
+.btn:hover{background:var(--accent);transform:translateY(-3px);box-shadow:0 12px 24px -10px rgba(184,67,47,.55)}
+.btn:hover::before{right:130%}
 .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);margin-inline-start:10px}
-.btn.ghost:hover{border-color:var(--ink);background:transparent;transform:translateY(-2px)}
+.btn.ghost:hover{border-color:var(--ink);background:transparent;transform:translateY(-3px);box-shadow:none}
+.btn.ghost::before{display:none}
 .stats{display:flex;gap:1px;justify-content:center;flex-wrap:wrap;margin:44px auto 0;background:var(--line);max-width:760px;border-radius:var(--radius);overflow:hidden}
-.stat{background:var(--ink);color:var(--paper);flex:1;min-width:150px;padding:16px 18px;font-size:.76rem;color:#B7C4BE}
+.stat{background:var(--ink);color:var(--paper);flex:1;min-width:150px;padding:16px 18px;font-size:.76rem;color:#B7C4BE;transition:background .25s ease}
+.stat:hover{background:#20302A}
 .stat b{color:var(--paper);display:block;font-size:1.35rem;font-family:'JetBrains Mono',monospace;direction:ltr;margin-bottom:2px}
 
 /* ---------- sections ---------- */
@@ -88,10 +112,11 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 
 /* ---------- feature / info grid (CSS-counter numbered) ---------- */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;counter-reset:card}
-.card{background:var(--card);padding:26px 24px;transition:background .2s ease;cursor:pointer;counter-increment:card;position:relative}
-.card:hover{background:#FBFAF6}
+.card{background:var(--card);padding:26px 24px;transition:background .2s ease,transform .3s ease,box-shadow .3s ease;cursor:pointer;counter-increment:card;position:relative;z-index:1}
+.card:hover{background:#FBFAF6;transform:translateY(-5px);box-shadow:0 16px 30px -18px rgba(22,35,31,.35);z-index:2}
 .card::before{content:"N." counter(card,decimal-leading-zero);font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);display:block;margin-bottom:14px;direction:ltr;text-align:left}
-.card .ico{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:1.1rem;margin-bottom:14px;border:1.5px solid var(--line);background:var(--card)}
+.card .ico{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:1.1rem;margin-bottom:14px;border:1.5px solid var(--line);background:var(--card);transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .25s ease,color .25s ease}
+.card:hover .ico{transform:scale(1.14) rotate(-8deg);background:var(--ink);color:var(--paper)!important;border-color:var(--ink)}
 .card h3{font-size:1.02rem;font-weight:700;margin-bottom:7px;font-family:'IBM Plex Sans Arabic',sans-serif}
 .card p{color:var(--muted);font-size:.87rem;line-height:1.85}
 .i1 .ico,.i1{--tint:var(--care)}
@@ -103,17 +128,20 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 /* ---------- lesson cards ---------- */
 #lessonList{counter-reset:lesson}
 .lcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:12px;transition:border-color .2s ease;counter-increment:lesson}
-.lcard.flash{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.lcard.flash{border-color:var(--accent);animation:flashPulse 1.8s ease}
+@keyframes flashPulse{0%,100%{box-shadow:0 0 0 0 var(--accent-soft)}25%{box-shadow:0 0 0 6px var(--accent-soft)}50%{box-shadow:0 0 0 2px var(--accent-soft)}75%{box-shadow:0 0 0 6px var(--accent-soft)}}
+@media(prefers-reduced-motion:reduce){.lcard.flash{animation:none;box-shadow:0 0 0 4px var(--accent-soft)}}
 .ltop{display:flex;gap:16px;align-items:flex-start}
 .lico{width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:1.2rem;color:var(--accent);position:relative}
 .lico::after{content:"—";position:absolute;bottom:-18px;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted)}
 .ltop h3{font-size:1.02rem;font-weight:700}
 .ltop h3::before{content:"N." counter(lesson,decimal-leading-zero) "  ";font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);direction:ltr;display:inline-block;margin-inline-end:4px}
 .ltop p{color:var(--muted);font-size:.85rem;margin-top:4px}
-.lopen{margin-top:14px;background:transparent;color:var(--ink);border:1.5px solid var(--line);border-radius:8px;padding:8px 18px;font-size:.83rem;font-weight:600;transition:.15s}
-.lopen:hover{border-color:var(--ink)}
-.lbody{display:none;margin-top:16px;background:var(--paper);border-right:3px solid var(--accent);border-radius:4px;padding:18px 20px;white-space:pre-line;line-height:2.1;font-size:.9rem;color:var(--ink-soft)}
-.lbody.open{display:block;animation:fade .3s}
+.lopen{margin-top:14px;background:transparent;color:var(--ink);border:1.5px solid var(--line);border-radius:8px;padding:8px 18px;font-size:.83rem;font-weight:600;transition:transform .2s ease,border-color .2s ease}
+.lopen:hover{border-color:var(--ink);transform:translateX(-3px)}
+.lbody{max-height:0;opacity:0;overflow:hidden;margin-top:0;background:var(--paper);border-right:3px solid var(--accent);border-radius:4px;padding:0 20px;white-space:pre-line;line-height:2.1;font-size:.9rem;color:var(--ink-soft);transition:max-height .5s cubic-bezier(.2,.8,.2,1),opacity .4s ease,padding .4s ease,margin .4s ease}
+.lbody.open{display:block;max-height:600px;opacity:1;margin-top:16px;padding:18px 20px}
+@media(prefers-reduced-motion:reduce){.lbody{transition:none}}
 
 /* ---------- search ---------- */
 .searchbox{background:var(--ink);border-radius:16px;padding:44px 30px;color:var(--paper);display:flex;gap:32px;align-items:center;flex-wrap:wrap;position:relative;overflow:hidden}
@@ -124,7 +152,12 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 .srow input{flex:1;border:none;outline:none;background:transparent;padding:11px 16px;font-size:.95rem;color:var(--ink);border-radius:8px;font-family:inherit}
 .srow button{background:var(--accent);color:#fff;border:none;border-radius:7px;padding:0 26px;font-weight:700;font-size:.88rem}
 #sres{position:absolute;top:calc(100% + 8px);right:0;left:0;background:var(--card);border-radius:12px;overflow:hidden;display:none;z-index:5;box-shadow:0 20px 50px rgba(22,35,31,.3);border:1px solid var(--line)}
-#sres button{display:block;width:100%;text-align:right;background:none;border:none;padding:13px 18px;font-size:.9rem;border-bottom:1px solid var(--line);color:var(--ink)}
+#sres button{display:block;width:100%;text-align:right;background:none;border:none;padding:13px 18px;font-size:.9rem;border-bottom:1px solid var(--line);color:var(--ink);opacity:0;transform:translateY(-6px);animation:sresIn .3s ease forwards}
+#sres button:nth-child(1){animation-delay:.02s}
+#sres button:nth-child(2){animation-delay:.07s}
+#sres button:nth-child(3){animation-delay:.12s}
+#sres button:nth-child(4){animation-delay:.17s}
+@keyframes sresIn{to{opacity:1;transform:translateY(0)}}
 #sres button:hover{background:var(--paper);color:var(--accent)}
 #sres .tag{background:var(--accent-soft);color:var(--accent);border-radius:5px;padding:2px 9px;font-size:.68rem;margin-inline-start:8px;font-family:'JetBrains Mono',monospace}
 
@@ -134,6 +167,32 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 .form input:focus,.form textarea:focus{border-color:var(--accent)}
 .form textarea{resize:vertical}
 .ok{display:none;background:var(--care-soft);color:var(--care);border-radius:8px;padding:14px;text-align:center;font-weight:700;margin-top:6px;font-size:.9rem}
+
+/* ---------- ai chat ---------- */
+.chat{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 14px 40px rgba(22,35,31,.08)}
+.chat-head{background:var(--care-soft);padding:16px 20px;display:flex;align-items:center;gap:12px}
+.chat-head .ai{width:40px;height:40px;border-radius:10px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:1.1rem;flex:none}
+.chat-head b{font-size:.98rem;font-family:'IBM Plex Sans Arabic',sans-serif}
+.chat-head small{display:block;color:var(--muted);font-size:.75rem;margin-top:2px}
+.st{color:var(--care);font-size:.75rem;font-weight:700}
+.chat-body{height:360px;overflow-y:auto;padding:20px;background:var(--paper);display:flex;flex-direction:column;gap:12px}
+.msg{max-width:85%;padding:12px 16px;border-radius:14px;font-size:.9rem;line-height:1.95;white-space:pre-line;animation:fade .25s ease}
+.msg.bot{background:var(--card);border:1px solid var(--line);align-self:flex-start;border-radius:14px 14px 14px 4px}
+.msg.user{background:var(--ink);color:var(--paper);align-self:flex-end;border-radius:14px 14px 4px 14px}
+.typing{display:flex;gap:5px;padding:6px 4px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blnk 1s infinite}
+.typing i:nth-child(2){animation-delay:.2s}
+.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blnk{50%{opacity:.25;transform:translateY(-4px)}}
+.chips{display:flex;gap:8px;flex-wrap:wrap;padding:14px 16px 0;background:var(--paper)}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 16px;font-size:.8rem;color:var(--ink-soft);transition:border-color .2s ease,color .2s ease,transform .2s ease}
+.chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.chat-input{display:flex;gap:10px;padding:16px}
+.chat-input input{flex:1;padding:13px 16px;border-radius:10px;border:1.5px solid var(--line);outline:none;font-size:.9rem;font-family:inherit;background:var(--paper)}
+.chat-input input:focus{border-color:var(--accent)}
+.chat-input button{background:var(--ink);color:var(--paper);border:none;border-radius:10px;padding:0 24px;font-weight:700;transition:background .2s ease}
+.chat-input button:hover{background:var(--accent)}
+.disc{text-align:center;color:var(--muted);font-size:.75rem;margin-top:14px}
 
 /* ---------- footer ---------- */
 footer{background:var(--ink);color:#AEBDB6;margin-top:40px;padding:46px 20px 22px;text-align:center}
@@ -149,7 +208,7 @@ footer .cp{border-top:1px solid rgba(246,243,234,.12);padding-top:16px;font-size
 <a class="logo" data-go="home"><span class="plus">✚</span><span>Nurse Care<small>تعلم التمريض بوضوح</small></span></a>
 <button class="burger" id="burger">☰</button>
 <div class="links" id="links">
-<a data-go="home" class="active">الرئيسية</a><a data-go="cours">الدروس</a><a data-go="secours">الإسعافات</a><a data-go="techniques">التقنيات</a><a data-go="contact" class="cta">تواصل معنا</a>
+<a data-go="home" class="active">الرئيسية</a><a data-go="cours">الدروس</a><a data-go="pharma">طب وصيدلة</a><a data-go="secours">الإسعافات</a><a data-go="techniques">التقنيات</a><a data-go="ai">المساعد الذكي</a><a data-go="contact" class="cta">تواصل معنا</a>
 </div></nav></header>
 
 <main class="page show" id="page-home">
@@ -162,107 +221,329 @@ footer .cp{border-top:1px solid rgba(246,243,234,.12);padding-top:16px;font-size
 </div>
 <div class="pulse-divider"><svg viewBox="0 0 1160 34" preserveAspectRatio="none">
 <path class="pulse-line live" d="M0,17 L280,17 L305,4 L325,30 L345,17 L370,17 L390,10 L405,17 L430,17 L455,4 L475,30 L495,17 L1160,17"/>
+<path class="pulse-line sweep" d="M0,17 L280,17 L305,4 L325,30 L345,17 L370,17 L390,10 L405,17 L430,17 L455,4 L475,30 L495,17 L1160,17"/>
 </svg></div>
 </section>
 
-<section class="sec"><div class="wrap"><div class="sec-t"><h2>لماذا Nurse Care؟</h2><p>واجهة مصممة حول طريقة دراسة طالب التمريض: معلومة واضحة، تنظيم جيد، ووصول سريع للمحتوى.</p></div>
+<section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>لماذا Nurse Care؟</h2><p>واجهة مصممة حول طريقة دراسة طالب التمريض: معلومة واضحة، تنظيم جيد، ووصول سريع للمحتوى.</p></div>
 <div class="grid">
-<div class="card i1"><div class="ico">◎</div><h3>تعلم سهل</h3><p>معلومات مبسطة ومنظمة تساعدك على فهم الدروس بدل تشتيتك بين التفاصيل.</p></div>
-<div class="card i2"><div class="ico">▤</div><h3>محتوى منظم</h3><p>الدروس والملخصات والأسئلة مرتبة لتسهيل المراجعة والوصول إلى ما تحتاجه.</p></div>
-<div class="card i3"><div class="ico">✚</div><h3>جانب عملي</h3><p>تقنيات وإسعافات أولية مع خطوات مختصرة تساعد على المراجعة.</p></div>
-<div class="card i4"><div class="ico">◈</div><h3>مراجعة ذكية</h3><p>مساعد تفاعلي وأسئلة سريعة لدعم التعلم والمراجعة.</p></div>
+<div class="card i1 reveal"><div class="ico">◎</div><h3>تعلم سهل</h3><p>معلومات مبسطة ومنظمة تساعدك على فهم الدروس بدل تشتيتك بين التفاصيل.</p></div>
+<div class="card i2 reveal"><div class="ico">▤</div><h3>محتوى منظم</h3><p>الدروس والملخصات والأسئلة مرتبة لتسهيل المراجعة والوصول إلى ما تحتاجه.</p></div>
+<div class="card i3 reveal"><div class="ico">✚</div><h3>جانب عملي</h3><p>تقنيات وإسعافات أولية مع خطوات مختصرة تساعد على المراجعة.</p></div>
+<div class="card i4 reveal"><div class="ico">◈</div><h3>مراجعة ذكية</h3><p>مساعد تفاعلي وأسئلة سريعة لدعم التعلم والمراجعة.</p></div>
 </div></div></section>
 
-<section class="sec"><div class="wrap"><div class="searchbox"><div><h2>ابحث في Nurse Care</h2><p>ابحث عن درس، تقنية أو إسعاف أولي.</p></div><div class="srow"><input id="search" placeholder="مثال: قياس الضغط"><button id="searchBtn">بحث</button><div id="sres"></div></div></div></div></section>
+<section class="sec"><div class="wrap"><div class="searchbox reveal"><div><h2>ابحث في Nurse Care</h2><p>ابحث عن درس، تقنية أو إسعاف أولي.</p></div><div class="srow"><input id="search" placeholder="مثال: قياس الضغط"><button id="searchBtn">بحث</button><div id="sres"></div></div></div></div></section>
 </main>
 
-<main class="page" id="page-cours"><section class="sec"><div class="wrap"><div class="sec-t"><h2>الدروس والملخصات</h2><p>محتوى مختصر للمراجعة السريعة.</p></div>
+<main class="page" id="page-cours"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>الدروس والملخصات</h2><p>محتوى مختصر للمراجعة السريعة.</p></div>
 <div id="lessonList">
-<div class="lcard" data-keywords="العلامات الحيوية vital signs ضغط نبض حرارة تنفس"><div class="ltop"><div class="lico">♥</div><div><h3>العلامات الحيوية</h3><p>الحرارة، النبض، التنفس وضغط الدم.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">العلامات الحيوية الأساسية:
+<div class="lcard reveal" data-keywords="العلامات الحيوية vital signs ضغط نبض حرارة تنفس"><div class="ltop"><div class="lico">♥</div><div><h3>العلامات الحيوية</h3><p>الحرارة، النبض، التنفس وضغط الدم.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">العلامات الحيوية الأساسية:
 • درجة الحرارة
 • معدل النبض
 • معدل التنفس
 • ضغط الدم
 
 تُقاس وتُسجل بشكل منظم، مع مراعاة حالة المريض والعمر والسياق السريري.</div></div>
-<div class="lcard" data-keywords="التعقيم sterilization infection control عدوى"><div class="ltop"><div class="lico">✚</div><div><h3>مكافحة العدوى والتعقيم</h3><p>مبادئ النظافة، التعقيم والوقاية من العدوى.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">مبادئ أساسية:
+<div class="lcard reveal" data-keywords="التعقيم sterilization infection control عدوى"><div class="ltop"><div class="lico">✚</div><div><h3>مكافحة العدوى والتعقيم</h3><p>مبادئ النظافة، التعقيم والوقاية من العدوى.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">مبادئ أساسية:
 • غسل اليدين بالطريقة الصحيحة
 • استعمال وسائل الحماية المناسبة
 • التخلص الآمن من الأدوات الحادة
 • احترام قواعد التعقيم ومكافحة العدوى.</div></div>
-<div class="lcard" data-keywords="حقن injection intramuscular عضلي وريدي"><div class="ltop"><div class="lico">◉</div><div><h3>أنواع الحقن</h3><p>تعرف على الأنواع والطرق بشكل مبسط.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">أمثلة على طرق إعطاء الدواء:
+<div class="lcard reveal" data-keywords="حقن injection intramuscular عضلي وريدي"><div class="ltop"><div class="lico">◉</div><div><h3>أنواع الحقن</h3><p>تعرف على الأنواع والطرق بشكل مبسط.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">أمثلة على طرق إعطاء الدواء:
 • فموي
 • تحت الجلد
 • عضلي
 • وريدي
 
 اختيار الطريقة يعتمد على الدواء، وصف الطبيب، وحالة المريض. التطبيق العملي يجب أن يكون تحت إشراف مختص.</div></div>
+<div class="lcard reveal" data-keywords="تشريح anatomy اجهزة الجسم اعضاء"><div class="ltop"><div class="lico">◈</div><div><h3>الأجهزة الأساسية للجسم</h3><p>نظرة عامة مبسطة على الأجهزة الحيوية.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">أهم أجهزة الجسم من منظور تعليمي:
+• الجهاز الدوري: القلب والأوعية الدموية، ينقل الدم والأكسجين.
+• الجهاز التنفسي: الرئتان والقصبات، مسؤول عن تبادل الغازات.
+• الجهاز الهضمي: من الفم إلى الأمعاء، لتفكيك وامتصاص الغذاء.
+• الجهاز العصبي: الدماغ والحبل الشوكي والأعصاب، ينسق وظائف الجسم.
+• الجهاز البولي: الكليتان والمثانة، لتصفية الدم وطرح الفضلات.
+
+فهم هذه الأجهزة أساس لفهم أي حالة سريرية لاحقاً.</div></div>
+<div class="lcard reveal" data-keywords="تحاليل مخبرية lab values قيم طبيعية دم glucose hemoglobin"><div class="ltop"><div class="lico">▤</div><div><h3>التحاليل المخبرية الأساسية</h3><p>القيم الطبيعية الشائعة كمرجع للمراجعة.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">قيم مرجعية شائعة (تقريبية، تختلف حسب المخبر):
+• الهيموغلوبين: 12–16 g/dL (نساء) | 13–17 g/dL (رجال)
+• سكر الدم صائم: 70–100 mg/dL
+• الكريات البيضاء: 4,000–11,000 /µL
+• الصفائح الدموية: 150,000–450,000 /µL
+• الكرياتينين: 0.6–1.3 mg/dL
+
+📌 هذه أرقام مرجعية للدراسة فقط، وتفسير أي تحليل حقيقي يعود للطبيب المختص.</div></div>
+<div class="lcard reveal" data-keywords="توثيق تمريضي documentation تقرير سجل مريض"><div class="ltop"><div class="lico">✎</div><div><h3>التوثيق والتقارير التمريضية</h3><p>لماذا التوثيق الدقيق جزء أساسي من المهنة.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">مبادئ التوثيق الجيد:
+• سجّل فور تقديم الرعاية، لا تؤجل.
+• اكتب بوضوح: من فعل ماذا، متى، وكيف كانت استجابة المريض.
+• تجنّب المصطلحات الغامضة، استعمل قيماً وأوصافاً دقيقة.
+• أي خطأ يُصحَّح بخط فوقه مع التوقيع، لا يُمحى أبداً.
+
+📌 التوثيق الجيد يحمي المريض والممرض معاً، وهو مرجع قانوني عند الحاجة.</div></div>
 </div></div></section></main>
 
-<main class="page" id="page-secours"><section class="sec"><div class="wrap"><div class="sec-t"><h2>الإسعافات الأولية</h2><p>معلومات توعوية أساسية. في الحالات الخطيرة يجب طلب خدمات الطوارئ المحلية.</p></div>
+<main class="page" id="page-pharma"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>الطب والصيدلة</h2><p>محتوى موجّه أيضاً لطلبة الطب والصيدلة — مبادئ عامة ومصطلحات أساسية.</p></div>
+<div id="pharmaList">
+<div class="lcard reveal" data-keywords="تصنيف الادوية pharmacology classes مسكنات مضادات حيوية"><div class="ltop"><div class="lico">℞</div><div><h3>تصنيف الأدوية الأساسية</h3><p>أهم الفئات الدوائية الكبرى وأدوارها.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">فئات دوائية أساسية للمراجعة:
+• المسكّنات (Analgesics): لتخفيف الألم، مثل الباراسيتامول ومضادات الالتهاب.
+• المضادات الحيوية (Antibiotics): لعلاج العدوى البكتيرية، لا تُجدي مع الفيروسات.
+• خافضات الضغط (Antihypertensives): لضبط ضغط الدم المرتفع.
+• مضادات الهيستامين (Antihistamines): للحساسية.
+• مضادات التخثر (Anticoagulants): لمنع تجلط الدم.
+
+📌 كل فئة تحمل استطبابات وموانع استعمال خاصة تُدرَس بالتفصيل لاحقاً.</div></div>
+<div class="lcard reveal" data-keywords="حساب الجرعات dose calculation صيدلة جرعة"><div class="ltop"><div class="lico">≈</div><div><h3>حساب الجرعات الدوائية</h3><p>المعادلة الأساسية المستعملة في المقررات.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">المعادلة الكلاسيكية لحساب الجرعة:
+
+الجرعة = (الجرعة المطلوبة ÷ الجرعة المتوفرة) × الكمية
+
+مثال تعليمي: إذا كانت الجرعة المطلوبة 500mg، والمتوفر أقراص من 250mg، فالكمية = 500÷250 = قرصان.
+
+📌 هذا مبدأ حسابي عام للتدريب الأكاديمي فقط، والجرعة الفعلية لأي مريض يحددها الطبيب أو الصيدلي المسؤول حسب الحالة والوزن والعمر.</div></div>
+<div class="lcard reveal" data-keywords="مصطلحات طبية medical terminology بادئات لاحقات"><div class="ltop"><div class="lico">Aa</div><div><h3>المصطلحات الطبية الأساسية</h3><p>بادئات ولواحق شائعة لفهم أي مصطلح طبي.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">أمثلة على بادئات ولواحق شائعة:
+• -itis: التهاب (مثل Gastritis = التهاب المعدة)
+• -ectomy: استئصال (مثل Appendectomy = استئصال الزائدة)
+• -algia: ألم (مثل Neuralgia = ألم عصبي)
+• Cardio-: متعلق بالقلب
+• Hema-/Hemo-: متعلق بالدم
+• Brady-: بطء (Bradycardia = بطء نبضات القلب)
+• Tachy-: سرعة (Tachycardia = تسارع نبضات القلب)
+
+📌 حفظ هذه الجذور يسهّل فهم أي مصطلح جديد تقابله في دراستك.</div></div>
+<div class="lcard reveal" data-keywords="تداخلات دوائية drug interactions تفاعل ادوية"><div class="ltop"><div class="lico">⇄</div><div><h3>التداخلات الدوائية — مبادئ عامة</h3><p>لماذا يجب معرفة أدوية المريض كاملة قبل أي وصفة.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">أنواع التداخلات الدوائية:
+• دوائي-دوائي: دواءان يؤثر أحدهما على فعالية الآخر.
+• دوائي-غذائي: مثل تأثير منتجات الألبان على امتصاص بعض المضادات الحيوية.
+• دوائي-مرضي: دواء قد يُفاقم حالة مرضية موجودة.
+
+📌 لهذا يُسأل المريض دائماً عن كل الأدوية التي يتناولها، بما فيها الأعشاب والمكملات، قبل صرف أي وصفة جديدة.</div></div>
+<div class="lcard reveal" data-keywords="قراءة الوصفة الطبية prescription abbreviations bid tid prn"><div class="ltop"><div class="lico">📋</div><div><h3>قراءة الوصفة الطبية</h3><p>أهم الاختصارات التي ستقابلها في أي وصفة.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">اختصارات شائعة في الوصفات الطبية:
+• qd: مرة واحدة يومياً
+• bid: مرتين يومياً
+• tid: ثلاث مرات يومياً
+• qid: أربع مرات يومياً
+• prn: عند الحاجة
+• po: عن طريق الفم
+• IV: عن طريق الوريد
+• IM: عن طريق العضل
+
+📌 أي غموض في وصفة يجب توضيحه مع الطبيب الواصف قبل الصرف أو الإعطاء — لا اجتهاد في القراءة.</div></div>
+</div></div></section></main>
+
+<main class="page" id="page-ai"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>المساعد الذكي</h2><p>اطرح سؤالك في التمريض، الطب أو الصيدلة وسيجاوبك المساعد مباشرة.</p></div>
+<div class="chat reveal">
+  <div class="chat-head">
+    <span class="ai">✦</span>
+    <div><b>Nurse Care AI</b><small>مساعد تعليمي — <span class="st" id="aiStatus">جاهز</span></small></div>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="msg bot">مرحباً 👋 أنا مساعدك الدراسي في التمريض والطب والصيدلة. جرّب تسألني: «شنو الفرق بين bid و tid؟» أو «اشرح ليا العلامات الحيوية».</div>
+  </div>
+  <div class="chips">
+    <button class="chip" type="button">اشرح لي العلامات الحيوية</button>
+    <button class="chip" type="button">شنو هي bid و tid؟</button>
+    <button class="chip" type="button">كيفاش نحسب الجرعة؟</button>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="اكتب سؤالك هنا...">
+    <button id="sendBtn" type="button">إرسال ←</button>
+  </div>
+</div>
+<p class="disc">⚠️ المحتوى تعليمي عام ولا يُستبدل تقييم الطبيب أو الصيدلي أو بروتوكولات المؤسسة الصحية.</p>
+</div></section></main>
+
+<main class="page" id="page-secours"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>الإسعافات الأولية</h2><p>معلومات توعوية أساسية. في الحالات الخطيرة يجب طلب خدمات الطوارئ المحلية.</p></div>
 <div class="grid">
-<div class="card i3"><div class="ico">⚠</div><h3>النزيف</h3><p>الضغط المباشر على الجرح بضماد نظيف، مع مراقبة حالة المصاب وطلب المساعدة عند النزيف الشديد.</p></div>
-<div class="card i2"><div class="ico">🔥</div><h3>الحروق</h3><p>تبريد الحرق بالماء الجاري الفاتر/البارد لفترة مناسبة وتجنب وضع مواد منزلية على الحرق.</p></div>
-<div class="card i1"><div class="ico">♥</div><h3>فقدان الوعي</h3><p>التأكد من سلامة المكان وفحص الاستجابة والتنفس وطلب المساعدة الطبية عند الحاجة.</p></div>
-<div class="card i4"><div class="ico">✚</div><h3>الاختناق</h3><p>عند الاختناق الشديد، يجب تطبيق إجراءات الإسعاف المناسبة حسب العمر والتدريب المتاح وطلب الطوارئ.</p></div>
+<div class="card i3 reveal"><div class="ico">⚠</div><h3>النزيف</h3><p>الضغط المباشر على الجرح بضماد نظيف، مع مراقبة حالة المصاب وطلب المساعدة عند النزيف الشديد.</p></div>
+<div class="card i2 reveal"><div class="ico">🔥</div><h3>الحروق</h3><p>تبريد الحرق بالماء الجاري الفاتر/البارد لفترة مناسبة وتجنب وضع مواد منزلية على الحرق.</p></div>
+<div class="card i1 reveal"><div class="ico">♥</div><h3>فقدان الوعي</h3><p>التأكد من سلامة المكان وفحص الاستجابة والتنفس وطلب المساعدة الطبية عند الحاجة.</p></div>
+<div class="card i4 reveal"><div class="ico">✚</div><h3>الاختناق</h3><p>عند الاختناق الشديد، يجب تطبيق إجراءات الإسعاف المناسبة حسب العمر والتدريب المتاح وطلب الطوارئ.</p></div>
 </div></div></section></main>
 
-<main class="page" id="page-techniques"><section class="sec"><div class="wrap"><div class="sec-t"><h2>تقنيات التمريض</h2><p>مراجعة نظرية للمهارات الأساسية.</p></div>
+<main class="page" id="page-techniques"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>تقنيات التمريض</h2><p>مراجعة نظرية للمهارات الأساسية.</p></div>
 <div class="grid">
-<div class="card i1"><div class="ico">◉</div><h3>قياس ضغط الدم</h3><p>اختيار الكفة المناسبة، وضعية صحيحة، ثم القياس وتسجيل النتيجة.</p></div>
-<div class="card i2"><div class="ico">♥</div><h3>قياس النبض</h3><p>تقييم معدل النبض وانتظامه وتسجيل القيمة وفق بروتوكول المؤسسة.</p></div>
-<div class="card i3"><div class="ico">◎</div><h3>قياس الحرارة</h3><p>استخدام جهاز مناسب واتباع تعليماته مع توثيق القراءة.</p></div>
-<div class="card i4"><div class="ico">✚</div><h3>غسل اليدين</h3><p>تنظيف اليدين في الأوقات المناسبة لتقليل انتقال الميكروبات.</p></div>
+<div class="card i1 reveal"><div class="ico">◉</div><h3>قياس ضغط الدم</h3><p>اختيار الكفة المناسبة، وضعية صحيحة، ثم القياس وتسجيل النتيجة.</p></div>
+<div class="card i2 reveal"><div class="ico">♥</div><h3>قياس النبض</h3><p>تقييم معدل النبض وانتظامه وتسجيل القيمة وفق بروتوكول المؤسسة.</p></div>
+<div class="card i3 reveal"><div class="ico">◎</div><h3>قياس الحرارة</h3><p>استخدام جهاز مناسب واتباع تعليماته مع توثيق القراءة.</p></div>
+<div class="card i4 reveal"><div class="ico">✚</div><h3>غسل اليدين</h3><p>تنظيف اليدين في الأوقات المناسبة لتقليل انتقال الميكروبات.</p></div>
 </div></div></section></main>
 
-<main class="page" id="page-contact"><section class="sec"><div class="wrap"><div class="sec-t"><h2>تواصل معنا</h2><p>أرسل ملاحظتك أو اقتراحك.</p></div>
-<form class="form" id="contactForm"><input required placeholder="الاسم"><input required type="email" placeholder="البريد الإلكتروني"><textarea required rows="5" placeholder="رسالتك"></textarea><button class="btn" type="submit">إرسال الرسالة</button><div class="ok" id="ok">تم إرسال الرسالة بنجاح.</div></form></div></section></main>
+<main class="page" id="page-contact"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>تواصل معنا</h2><p>أرسل ملاحظتك أو اقتراحك.</p></div>
+<form class="form reveal" id="contactForm"><input required placeholder="الاسم"><input required type="email" placeholder="البريد الإلكتروني"><textarea required rows="5" placeholder="رسالتك"></textarea><button class="btn" type="submit">إرسال الرسالة</button><div class="ok" id="ok">تم إرسال الرسالة بنجاح.</div></form></div></section></main>
 
-<footer><div><b style="color:var(--paper);font-size:1.2rem;font-family:'Reem Kufi',sans-serif">Nurse Care</b><div class="fl"><a data-go="home">الرئيسية</a><a data-go="cours">الدروس</a><a data-go="secours">الإسعافات</a><a data-go="techniques">التقنيات</a><a data-go="contact">تواصل معنا</a></div><div class="cp">© 2026 Nurse Care</div></div></footer>
+<footer><div><b style="color:var(--paper);font-size:1.2rem;font-family:'Reem Kufi',sans-serif">Nurse Care</b><div class="fl"><a data-go="home">الرئيسية</a><a data-go="cours">الدروس</a><a data-go="pharma">طب وصيدلة</a><a data-go="secours">الإسعافات</a><a data-go="techniques">التقنيات</a><a data-go="ai">المساعد الذكي</a><a data-go="contact">تواصل معنا</a></div><div class="cp">© 2026 Nurse Care</div></div></footer>
 
+<!-- Puter.js: ذكاء اصطناعي مجاني بلا API key -->
+<script src="https://js.puter.com/v2/"></script>
 <script>
-const pages=['home','cours','secours','techniques','contact'];
+document.addEventListener('DOMContentLoaded',()=>{
+
+const pages=['home','cours','pharma','secours','techniques','ai','contact'];
 const go=(name)=>{
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
  const page=document.getElementById('page-'+name);
  if(page) page.classList.add('show');
  document.querySelectorAll('[data-go]').forEach(a=>a.classList.toggle('active',a.dataset.go===name && a.closest('.links')));
- document.getElementById('links').classList.remove('open');
+ const linksNow=document.getElementById('links'); if(linksNow) linksNow.classList.remove('open');
+ const burgerIcon=document.getElementById('burger'); if(burgerIcon) burgerIcon.textContent='☰';
  window.scrollTo({top:0,behavior:'smooth'});
+ requestAnimationFrame(()=>{
+  document.querySelectorAll('#page-'+name+' .reveal:not(.in)').forEach(el=>{ if(window.revealObserver) window.revealObserver.observe(el); });
+  document.querySelectorAll('#page-'+name+' .stats').forEach(el=>{ if(window.statObserver) window.statObserver.observe(el); });
+ });
 };
+window.go=go;
 document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
-document.getElementById('burger').addEventListener('click',()=>document.getElementById('links').classList.toggle('open'));
+
+const burgerBtn=document.getElementById('burger');
+const linksEl=document.getElementById('links');
+if(burgerBtn && linksEl){
+ burgerBtn.addEventListener('click',()=>{
+  linksEl.classList.toggle('open');
+  burgerBtn.textContent=linksEl.classList.contains('open')?'✕':'☰';
+ });
+}
 
 document.querySelectorAll('.lopen').forEach(btn=>{
  btn.addEventListener('click',()=>{
   const body=btn.nextElementSibling;
+  if(!body) return;
   body.classList.toggle('open');
   btn.textContent=body.classList.contains('open')?'إغلاق الدرس':'فتح الدرس';
  });
 });
 
+/* ---------- search (works across .lcard on any page, navigates to the right one) ---------- */
 const search=document.getElementById('search'), sres=document.getElementById('sres');
-const cards=[...document.querySelectorAll('.lcard')];
-function doSearch(){
- const q=search.value.trim().toLowerCase(); sres.innerHTML='';
- if(!q){sres.style.display='none';return;}
- const matches=cards.filter(c=>(c.innerText+' '+c.dataset.keywords).toLowerCase().includes(q));
- matches.forEach(c=>{
-  const b=document.createElement('button');
-  b.innerHTML='<span class="tag">درس</span>'+c.querySelector('h3').innerText;
-  b.onclick=()=>{go('cours');setTimeout(()=>{c.classList.add('flash');c.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>c.classList.remove('flash'),1800)},100)};
-  sres.appendChild(b);
- });
- if(!matches.length){const b=document.createElement('button');b.textContent='لا توجد نتيجة مطابقة';sres.appendChild(b);}
- sres.style.display='block';
+if(search && sres){
+ function doSearch(){
+  const q=search.value.trim().toLowerCase(); sres.innerHTML='';
+  if(!q){sres.style.display='none';return;}
+  const cardsNow=[...document.querySelectorAll('.lcard')];
+  const matches=cardsNow.filter(c=>(c.innerText+' '+(c.dataset.keywords||'')).toLowerCase().includes(q));
+  matches.forEach(c=>{
+   const h3=c.querySelector('h3');
+   const parentPage=c.closest('.page');
+   const targetPage=parentPage?parentPage.id.replace('page-',''):'cours';
+   const b=document.createElement('button');
+   b.innerHTML='<span class="tag">درس</span>'+(h3?h3.innerText:'');
+   b.onclick=()=>{go(targetPage);setTimeout(()=>{c.classList.add('flash');c.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>c.classList.remove('flash'),1800)},120)};
+   sres.appendChild(b);
+  });
+  if(!matches.length){const b=document.createElement('button');b.textContent='لا توجد نتيجة مطابقة';sres.appendChild(b);}
+  sres.style.display='block';
+ }
+ document.getElementById('searchBtn')?.addEventListener('click',doSearch);
+ search.addEventListener('input',doSearch);
+ document.addEventListener('click',e=>{if(!e.target.closest('.srow'))sres.style.display='none';});
 }
-document.getElementById('searchBtn').addEventListener('click',doSearch);
-search.addEventListener('input',doSearch);
-document.addEventListener('click',e=>{if(!e.target.closest('.srow'))sres.style.display='none';});
 
-document.getElementById('contactForm').addEventListener('submit',e=>{
- e.preventDefault(); document.getElementById('ok').style.display='block'; e.target.reset();
+/* ---------- contact form ---------- */
+const contactForm=document.getElementById('contactForm');
+if(contactForm){
+ contactForm.addEventListener('submit',e=>{
+  e.preventDefault();
+  const okBox=document.getElementById('ok'); if(okBox) okBox.style.display='block';
+  e.target.reset();
+ });
+}
+
+/* ---------- reveal-on-scroll ---------- */
+window.revealObserver=new IntersectionObserver((entries)=>{
+ entries.forEach(entry=>{
+  if(entry.isIntersecting){
+   entry.target.classList.add('in');
+   window.revealObserver.unobserve(entry.target);
+  }
+ });
+},{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>window.revealObserver.observe(el));
+
+/* ---------- count-up vitals stats ---------- */
+function countUp(el,target,pad){
+ const dur=1000,start=performance.now();
+ function tick(now){
+  const p=Math.min((now-start)/dur,1);
+  const eased=1-Math.pow(1-p,3);
+  el.textContent=String(Math.round(target*eased)).padStart(pad,'0');
+  if(p<1) requestAnimationFrame(tick);
+ }
+ requestAnimationFrame(tick);
+}
+window.statObserver=new IntersectionObserver((entries)=>{
+ entries.forEach(entry=>{
+  if(!entry.isIntersecting) return;
+  entry.target.querySelectorAll('.stat b').forEach(b=>{
+   const txt=b.textContent.trim();
+   if(/^\d+$/.test(txt)){ countUp(b,parseInt(txt,10),txt.length); }
+  });
+  window.statObserver.unobserve(entry.target);
+ });
+},{threshold:.4});
+document.querySelectorAll('.stats').forEach(s=>window.statObserver.observe(s));
+
+/* ---------- AI assistant (Puter.js — free, no API key) ---------- */
+const chatBody=document.getElementById('chatBody');
+const chatInput=document.getElementById('chatInput');
+const sendBtn=document.getElementById('sendBtn');
+const aiStatus=document.getElementById('aiStatus');
+
+const SYSTEM_PROMPT='أنت مساعد تعليمي داخل منصة Nurse Care، موجّه لطلبة التمريض والطب والصيدلة. جاوب بالدارجة المغربية أو بالعربية الفصحى حسب لغة السؤال، بشكل مبسط ومنظم بنقاط عند الإمكان. المحتوى تعليمي عام فقط، ولا تعطي أبداً جرعات أو تشخيصاً أو نصيحة علاجية لحالة شخص حقيقي معين — ذكّر السائل بالرجوع لطبيب أو صيدلي مختص في مثل هذه الحالات. اجعل الجواب مختصراً ومفيداً.';
+
+function addMsg(text,who){
+ if(!chatBody) return null;
+ const div=document.createElement('div');
+ div.className='msg '+who;
+ div.textContent=text;
+ chatBody.appendChild(div);
+ chatBody.scrollTop=chatBody.scrollHeight;
+ return div;
+}
+
+function addTyping(){
+ if(!chatBody) return null;
+ const div=document.createElement('div');
+ div.className='msg bot typing';
+ div.innerHTML='<i></i><i></i><i></i>';
+ chatBody.appendChild(div);
+ chatBody.scrollTop=chatBody.scrollHeight;
+ return div;
+}
+
+async function askAI(userText){
+ if(!userText.trim()) return;
+ addMsg(userText,'user');
+ if(chatInput) chatInput.value='';
+ const typingEl=addTyping();
+ if(aiStatus) aiStatus.textContent='كيكتب...';
+ try{
+  if(typeof puter==='undefined' || !puter.ai || !puter.ai.chat){
+   throw new Error('puter-unavailable');
+  }
+  const resp=await puter.ai.chat(SYSTEM_PROMPT+'\n\nسؤال الطالب: '+userText);
+  let text='';
+  if(typeof resp==='string') text=resp;
+  else if(resp?.message?.content) text=Array.isArray(resp.message.content)?resp.message.content.map(c=>c.text||'').join(' '):resp.message.content;
+  else if(resp?.text) text=resp.text;
+  else text=JSON.stringify(resp);
+  if(typingEl) typingEl.remove();
+  addMsg(text||'ماقدرتش نلقى جواب، عاود صيغ السؤال من فضلك.','bot');
+ }catch(err){
+  if(typingEl) typingEl.remove();
+  addMsg('⚠️ المساعد الذكي ماشي متاح دابا (تأكد من الاتصال بالإنترنت وعاود المحاولة بعد قليل).','bot');
+ }finally{
+  if(aiStatus) aiStatus.textContent='جاهز';
+ }
+}
+
+if(sendBtn && chatInput){
+ sendBtn.addEventListener('click',()=>askAI(chatInput.value));
+ chatInput.addEventListener('keydown',e=>{ if(e.key==='Enter') askAI(chatInput.value); });
+}
+document.querySelectorAll('.chip').forEach(chip=>{
+ chip.addEventListener('click',()=>askAI(chip.textContent.trim()));
 });
+
+}); /* end DOMContentLoaded */
+
 </script>
 </body>
 </html>
