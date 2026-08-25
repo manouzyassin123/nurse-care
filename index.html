@@ -168,6 +168,34 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 .form textarea{resize:vertical}
 .ok{display:none;background:var(--care-soft);color:var(--care);border-radius:8px;padding:14px;text-align:center;font-weight:700;margin-top:6px;font-size:.9rem}
 
+/* ---------- sticky-scroll story ---------- */
+.story{position:relative;height:300vh}
+.story-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
+.story-inner{max-width:1160px;margin:auto;padding:0 20px;display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;align-items:center;width:100%}
+@media(max-width:860px){.story-inner{grid-template-columns:1fr;gap:32px}}
+.story-visual{background:var(--ink);border-radius:16px;aspect-ratio:4/3;position:relative;overflow:hidden}
+.story-visual svg{position:absolute;inset:0;width:100%;height:100%}
+.story-visual path{fill:none;stroke-width:2.5;stroke:var(--accent);opacity:0;transition:opacity .5s ease}
+.story-visual path.active{opacity:1}
+.story-visual .sv1{stroke:#E0A94A}
+.story-visual .sv2{stroke:#4FD1A5}
+.story-caption{position:absolute;bottom:16px;right:16px;left:16px;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#8FA39B;direction:ltr;text-align:left}
+.story-text{position:relative;min-height:220px}
+.story-chapter{position:absolute;inset:0;opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+.story-chapter.active{opacity:1;transform:translateY(0);pointer-events:auto}
+.story-tag{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--accent);display:block;margin-bottom:14px;direction:ltr;text-align:right}
+.story-chapter h2{font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:14px}
+.story-chapter p{color:var(--muted);font-size:.98rem;line-height:2;max-width:46ch}
+.story-progress{display:flex;gap:8px;margin-top:26px}
+.story-dot{width:26px;height:3px;border-radius:2px;background:var(--line);transition:background .3s ease}
+.story-dot.active{background:var(--accent)}
+@media(prefers-reduced-motion:reduce){
+ .story{height:auto}
+ .story-sticky{position:relative;top:auto;height:auto;padding:60px 0}
+ .story-chapter{position:relative;opacity:1;transform:none;pointer-events:auto;margin-bottom:40px}
+ .story-visual path{opacity:1}
+}
+
 /* ---------- ai chat ---------- */
 .chat{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 14px 40px rgba(22,35,31,.08)}
 .chat-head{background:var(--care-soft);padding:16px 20px;display:flex;align-items:center;gap:12px}
@@ -225,325 +253,4 @@ footer .cp{border-top:1px solid rgba(246,243,234,.12);padding-top:16px;font-size
 </svg></div>
 </section>
 
-<section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>لماذا Nurse Care؟</h2><p>واجهة مصممة حول طريقة دراسة طالب التمريض: معلومة واضحة، تنظيم جيد، ووصول سريع للمحتوى.</p></div>
-<div class="grid">
-<div class="card i1 reveal"><div class="ico">◎</div><h3>تعلم سهل</h3><p>معلومات مبسطة ومنظمة تساعدك على فهم الدروس بدل تشتيتك بين التفاصيل.</p></div>
-<div class="card i2 reveal"><div class="ico">▤</div><h3>محتوى منظم</h3><p>الدروس والملخصات والأسئلة مرتبة لتسهيل المراجعة والوصول إلى ما تحتاجه.</p></div>
-<div class="card i3 reveal"><div class="ico">✚</div><h3>جانب عملي</h3><p>تقنيات وإسعافات أولية مع خطوات مختصرة تساعد على المراجعة.</p></div>
-<div class="card i4 reveal"><div class="ico">◈</div><h3>مراجعة ذكية</h3><p>مساعد تفاعلي وأسئلة سريعة لدعم التعلم والمراجعة.</p></div>
-</div></div></section>
-
-<section class="sec"><div class="wrap"><div class="searchbox reveal"><div><h2>ابحث في Nurse Care</h2><p>ابحث عن درس، تقنية أو إسعاف أولي.</p></div><div class="srow"><input id="search" placeholder="مثال: قياس الضغط"><button id="searchBtn">بحث</button><div id="sres"></div></div></div></div></section>
-</main>
-
-<main class="page" id="page-cours"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>الدروس والملخصات</h2><p>محتوى مختصر للمراجعة السريعة.</p></div>
-<div id="lessonList">
-<div class="lcard reveal" data-keywords="العلامات الحيوية vital signs ضغط نبض حرارة تنفس"><div class="ltop"><div class="lico">♥</div><div><h3>العلامات الحيوية</h3><p>الحرارة، النبض، التنفس وضغط الدم.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">العلامات الحيوية الأساسية:
-• درجة الحرارة
-• معدل النبض
-• معدل التنفس
-• ضغط الدم
-
-تُقاس وتُسجل بشكل منظم، مع مراعاة حالة المريض والعمر والسياق السريري.</div></div>
-<div class="lcard reveal" data-keywords="التعقيم sterilization infection control عدوى"><div class="ltop"><div class="lico">✚</div><div><h3>مكافحة العدوى والتعقيم</h3><p>مبادئ النظافة، التعقيم والوقاية من العدوى.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">مبادئ أساسية:
-• غسل اليدين بالطريقة الصحيحة
-• استعمال وسائل الحماية المناسبة
-• التخلص الآمن من الأدوات الحادة
-• احترام قواعد التعقيم ومكافحة العدوى.</div></div>
-<div class="lcard reveal" data-keywords="حقن injection intramuscular عضلي وريدي"><div class="ltop"><div class="lico">◉</div><div><h3>أنواع الحقن</h3><p>تعرف على الأنواع والطرق بشكل مبسط.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">أمثلة على طرق إعطاء الدواء:
-• فموي
-• تحت الجلد
-• عضلي
-• وريدي
-
-اختيار الطريقة يعتمد على الدواء، وصف الطبيب، وحالة المريض. التطبيق العملي يجب أن يكون تحت إشراف مختص.</div></div>
-<div class="lcard reveal" data-keywords="تشريح anatomy اجهزة الجسم اعضاء"><div class="ltop"><div class="lico">◈</div><div><h3>الأجهزة الأساسية للجسم</h3><p>نظرة عامة مبسطة على الأجهزة الحيوية.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">أهم أجهزة الجسم من منظور تعليمي:
-• الجهاز الدوري: القلب والأوعية الدموية، ينقل الدم والأكسجين.
-• الجهاز التنفسي: الرئتان والقصبات، مسؤول عن تبادل الغازات.
-• الجهاز الهضمي: من الفم إلى الأمعاء، لتفكيك وامتصاص الغذاء.
-• الجهاز العصبي: الدماغ والحبل الشوكي والأعصاب، ينسق وظائف الجسم.
-• الجهاز البولي: الكليتان والمثانة، لتصفية الدم وطرح الفضلات.
-
-فهم هذه الأجهزة أساس لفهم أي حالة سريرية لاحقاً.</div></div>
-<div class="lcard reveal" data-keywords="تحاليل مخبرية lab values قيم طبيعية دم glucose hemoglobin"><div class="ltop"><div class="lico">▤</div><div><h3>التحاليل المخبرية الأساسية</h3><p>القيم الطبيعية الشائعة كمرجع للمراجعة.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">قيم مرجعية شائعة (تقريبية، تختلف حسب المخبر):
-• الهيموغلوبين: 12–16 g/dL (نساء) | 13–17 g/dL (رجال)
-• سكر الدم صائم: 70–100 mg/dL
-• الكريات البيضاء: 4,000–11,000 /µL
-• الصفائح الدموية: 150,000–450,000 /µL
-• الكرياتينين: 0.6–1.3 mg/dL
-
-📌 هذه أرقام مرجعية للدراسة فقط، وتفسير أي تحليل حقيقي يعود للطبيب المختص.</div></div>
-<div class="lcard reveal" data-keywords="توثيق تمريضي documentation تقرير سجل مريض"><div class="ltop"><div class="lico">✎</div><div><h3>التوثيق والتقارير التمريضية</h3><p>لماذا التوثيق الدقيق جزء أساسي من المهنة.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">مبادئ التوثيق الجيد:
-• سجّل فور تقديم الرعاية، لا تؤجل.
-• اكتب بوضوح: من فعل ماذا، متى، وكيف كانت استجابة المريض.
-• تجنّب المصطلحات الغامضة، استعمل قيماً وأوصافاً دقيقة.
-• أي خطأ يُصحَّح بخط فوقه مع التوقيع، لا يُمحى أبداً.
-
-📌 التوثيق الجيد يحمي المريض والممرض معاً، وهو مرجع قانوني عند الحاجة.</div></div>
-</div></div></section></main>
-
-<main class="page" id="page-pharma"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>الطب والصيدلة</h2><p>محتوى موجّه أيضاً لطلبة الطب والصيدلة — مبادئ عامة ومصطلحات أساسية.</p></div>
-<div id="pharmaList">
-<div class="lcard reveal" data-keywords="تصنيف الادوية pharmacology classes مسكنات مضادات حيوية"><div class="ltop"><div class="lico">℞</div><div><h3>تصنيف الأدوية الأساسية</h3><p>أهم الفئات الدوائية الكبرى وأدوارها.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">فئات دوائية أساسية للمراجعة:
-• المسكّنات (Analgesics): لتخفيف الألم، مثل الباراسيتامول ومضادات الالتهاب.
-• المضادات الحيوية (Antibiotics): لعلاج العدوى البكتيرية، لا تُجدي مع الفيروسات.
-• خافضات الضغط (Antihypertensives): لضبط ضغط الدم المرتفع.
-• مضادات الهيستامين (Antihistamines): للحساسية.
-• مضادات التخثر (Anticoagulants): لمنع تجلط الدم.
-
-📌 كل فئة تحمل استطبابات وموانع استعمال خاصة تُدرَس بالتفصيل لاحقاً.</div></div>
-<div class="lcard reveal" data-keywords="حساب الجرعات dose calculation صيدلة جرعة"><div class="ltop"><div class="lico">≈</div><div><h3>حساب الجرعات الدوائية</h3><p>المعادلة الأساسية المستعملة في المقررات.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">المعادلة الكلاسيكية لحساب الجرعة:
-
-الجرعة = (الجرعة المطلوبة ÷ الجرعة المتوفرة) × الكمية
-
-مثال تعليمي: إذا كانت الجرعة المطلوبة 500mg، والمتوفر أقراص من 250mg، فالكمية = 500÷250 = قرصان.
-
-📌 هذا مبدأ حسابي عام للتدريب الأكاديمي فقط، والجرعة الفعلية لأي مريض يحددها الطبيب أو الصيدلي المسؤول حسب الحالة والوزن والعمر.</div></div>
-<div class="lcard reveal" data-keywords="مصطلحات طبية medical terminology بادئات لاحقات"><div class="ltop"><div class="lico">Aa</div><div><h3>المصطلحات الطبية الأساسية</h3><p>بادئات ولواحق شائعة لفهم أي مصطلح طبي.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">أمثلة على بادئات ولواحق شائعة:
-• -itis: التهاب (مثل Gastritis = التهاب المعدة)
-• -ectomy: استئصال (مثل Appendectomy = استئصال الزائدة)
-• -algia: ألم (مثل Neuralgia = ألم عصبي)
-• Cardio-: متعلق بالقلب
-• Hema-/Hemo-: متعلق بالدم
-• Brady-: بطء (Bradycardia = بطء نبضات القلب)
-• Tachy-: سرعة (Tachycardia = تسارع نبضات القلب)
-
-📌 حفظ هذه الجذور يسهّل فهم أي مصطلح جديد تقابله في دراستك.</div></div>
-<div class="lcard reveal" data-keywords="تداخلات دوائية drug interactions تفاعل ادوية"><div class="ltop"><div class="lico">⇄</div><div><h3>التداخلات الدوائية — مبادئ عامة</h3><p>لماذا يجب معرفة أدوية المريض كاملة قبل أي وصفة.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">أنواع التداخلات الدوائية:
-• دوائي-دوائي: دواءان يؤثر أحدهما على فعالية الآخر.
-• دوائي-غذائي: مثل تأثير منتجات الألبان على امتصاص بعض المضادات الحيوية.
-• دوائي-مرضي: دواء قد يُفاقم حالة مرضية موجودة.
-
-📌 لهذا يُسأل المريض دائماً عن كل الأدوية التي يتناولها، بما فيها الأعشاب والمكملات، قبل صرف أي وصفة جديدة.</div></div>
-<div class="lcard reveal" data-keywords="قراءة الوصفة الطبية prescription abbreviations bid tid prn"><div class="ltop"><div class="lico">📋</div><div><h3>قراءة الوصفة الطبية</h3><p>أهم الاختصارات التي ستقابلها في أي وصفة.</p></div></div><button class="lopen">فتح الدرس</button><div class="lbody">اختصارات شائعة في الوصفات الطبية:
-• qd: مرة واحدة يومياً
-• bid: مرتين يومياً
-• tid: ثلاث مرات يومياً
-• qid: أربع مرات يومياً
-• prn: عند الحاجة
-• po: عن طريق الفم
-• IV: عن طريق الوريد
-• IM: عن طريق العضل
-
-📌 أي غموض في وصفة يجب توضيحه مع الطبيب الواصف قبل الصرف أو الإعطاء — لا اجتهاد في القراءة.</div></div>
-</div></div></section></main>
-
-<main class="page" id="page-ai"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>المساعد الذكي</h2><p>اطرح سؤالك في التمريض، الطب أو الصيدلة وسيجاوبك المساعد مباشرة.</p></div>
-<div class="chat reveal">
-  <div class="chat-head">
-    <span class="ai">✦</span>
-    <div><b>Nurse Care AI</b><small>مساعد تعليمي — <span class="st" id="aiStatus">جاهز</span></small></div>
-  </div>
-  <div class="chat-body" id="chatBody">
-    <div class="msg bot">مرحباً 👋 أنا مساعدك الدراسي في التمريض والطب والصيدلة. جرّب تسألني: «شنو الفرق بين bid و tid؟» أو «اشرح ليا العلامات الحيوية».</div>
-  </div>
-  <div class="chips">
-    <button class="chip" type="button">اشرح لي العلامات الحيوية</button>
-    <button class="chip" type="button">شنو هي bid و tid؟</button>
-    <button class="chip" type="button">كيفاش نحسب الجرعة؟</button>
-  </div>
-  <div class="chat-input">
-    <input type="text" id="chatInput" placeholder="اكتب سؤالك هنا...">
-    <button id="sendBtn" type="button">إرسال ←</button>
-  </div>
-</div>
-<p class="disc">⚠️ المحتوى تعليمي عام ولا يُستبدل تقييم الطبيب أو الصيدلي أو بروتوكولات المؤسسة الصحية.</p>
-</div></section></main>
-
-<main class="page" id="page-secours"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>الإسعافات الأولية</h2><p>معلومات توعوية أساسية. في الحالات الخطيرة يجب طلب خدمات الطوارئ المحلية.</p></div>
-<div class="grid">
-<div class="card i3 reveal"><div class="ico">⚠</div><h3>النزيف</h3><p>الضغط المباشر على الجرح بضماد نظيف، مع مراقبة حالة المصاب وطلب المساعدة عند النزيف الشديد.</p></div>
-<div class="card i2 reveal"><div class="ico">🔥</div><h3>الحروق</h3><p>تبريد الحرق بالماء الجاري الفاتر/البارد لفترة مناسبة وتجنب وضع مواد منزلية على الحرق.</p></div>
-<div class="card i1 reveal"><div class="ico">♥</div><h3>فقدان الوعي</h3><p>التأكد من سلامة المكان وفحص الاستجابة والتنفس وطلب المساعدة الطبية عند الحاجة.</p></div>
-<div class="card i4 reveal"><div class="ico">✚</div><h3>الاختناق</h3><p>عند الاختناق الشديد، يجب تطبيق إجراءات الإسعاف المناسبة حسب العمر والتدريب المتاح وطلب الطوارئ.</p></div>
-</div></div></section></main>
-
-<main class="page" id="page-techniques"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>تقنيات التمريض</h2><p>مراجعة نظرية للمهارات الأساسية.</p></div>
-<div class="grid">
-<div class="card i1 reveal"><div class="ico">◉</div><h3>قياس ضغط الدم</h3><p>اختيار الكفة المناسبة، وضعية صحيحة، ثم القياس وتسجيل النتيجة.</p></div>
-<div class="card i2 reveal"><div class="ico">♥</div><h3>قياس النبض</h3><p>تقييم معدل النبض وانتظامه وتسجيل القيمة وفق بروتوكول المؤسسة.</p></div>
-<div class="card i3 reveal"><div class="ico">◎</div><h3>قياس الحرارة</h3><p>استخدام جهاز مناسب واتباع تعليماته مع توثيق القراءة.</p></div>
-<div class="card i4 reveal"><div class="ico">✚</div><h3>غسل اليدين</h3><p>تنظيف اليدين في الأوقات المناسبة لتقليل انتقال الميكروبات.</p></div>
-</div></div></section></main>
-
-<main class="page" id="page-contact"><section class="sec"><div class="wrap"><div class="sec-t reveal"><h2>تواصل معنا</h2><p>أرسل ملاحظتك أو اقتراحك.</p></div>
-<form class="form reveal" id="contactForm"><input required placeholder="الاسم"><input required type="email" placeholder="البريد الإلكتروني"><textarea required rows="5" placeholder="رسالتك"></textarea><button class="btn" type="submit">إرسال الرسالة</button><div class="ok" id="ok">تم إرسال الرسالة بنجاح.</div></form></div></section></main>
-
-<footer><div><b style="color:var(--paper);font-size:1.2rem;font-family:'Reem Kufi',sans-serif">Nurse Care</b><div class="fl"><a data-go="home">الرئيسية</a><a data-go="cours">الدروس</a><a data-go="pharma">طب وصيدلة</a><a data-go="secours">الإسعافات</a><a data-go="techniques">التقنيات</a><a data-go="ai">المساعد الذكي</a><a data-go="contact">تواصل معنا</a></div><div class="cp">© 2026 Nurse Care</div></div></footer>
-
-<!-- Puter.js: ذكاء اصطناعي مجاني بلا API key -->
-<script src="https://js.puter.com/v2/"></script>
-<script>
-document.addEventListener('DOMContentLoaded',()=>{
-
-const pages=['home','cours','pharma','secours','techniques','ai','contact'];
-const go=(name)=>{
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
- const page=document.getElementById('page-'+name);
- if(page) page.classList.add('show');
- document.querySelectorAll('[data-go]').forEach(a=>a.classList.toggle('active',a.dataset.go===name && a.closest('.links')));
- const linksNow=document.getElementById('links'); if(linksNow) linksNow.classList.remove('open');
- const burgerIcon=document.getElementById('burger'); if(burgerIcon) burgerIcon.textContent='☰';
- window.scrollTo({top:0,behavior:'smooth'});
- requestAnimationFrame(()=>{
-  document.querySelectorAll('#page-'+name+' .reveal:not(.in)').forEach(el=>{ if(window.revealObserver) window.revealObserver.observe(el); });
-  document.querySelectorAll('#page-'+name+' .stats').forEach(el=>{ if(window.statObserver) window.statObserver.observe(el); });
- });
-};
-window.go=go;
-document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.go)));
-
-const burgerBtn=document.getElementById('burger');
-const linksEl=document.getElementById('links');
-if(burgerBtn && linksEl){
- burgerBtn.addEventListener('click',()=>{
-  linksEl.classList.toggle('open');
-  burgerBtn.textContent=linksEl.classList.contains('open')?'✕':'☰';
- });
-}
-
-document.querySelectorAll('.lopen').forEach(btn=>{
- btn.addEventListener('click',()=>{
-  const body=btn.nextElementSibling;
-  if(!body) return;
-  body.classList.toggle('open');
-  btn.textContent=body.classList.contains('open')?'إغلاق الدرس':'فتح الدرس';
- });
-});
-
-/* ---------- search (works across .lcard on any page, navigates to the right one) ---------- */
-const search=document.getElementById('search'), sres=document.getElementById('sres');
-if(search && sres){
- function doSearch(){
-  const q=search.value.trim().toLowerCase(); sres.innerHTML='';
-  if(!q){sres.style.display='none';return;}
-  const cardsNow=[...document.querySelectorAll('.lcard')];
-  const matches=cardsNow.filter(c=>(c.innerText+' '+(c.dataset.keywords||'')).toLowerCase().includes(q));
-  matches.forEach(c=>{
-   const h3=c.querySelector('h3');
-   const parentPage=c.closest('.page');
-   const targetPage=parentPage?parentPage.id.replace('page-',''):'cours';
-   const b=document.createElement('button');
-   b.innerHTML='<span class="tag">درس</span>'+(h3?h3.innerText:'');
-   b.onclick=()=>{go(targetPage);setTimeout(()=>{c.classList.add('flash');c.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>c.classList.remove('flash'),1800)},120)};
-   sres.appendChild(b);
-  });
-  if(!matches.length){const b=document.createElement('button');b.textContent='لا توجد نتيجة مطابقة';sres.appendChild(b);}
-  sres.style.display='block';
- }
- document.getElementById('searchBtn')?.addEventListener('click',doSearch);
- search.addEventListener('input',doSearch);
- document.addEventListener('click',e=>{if(!e.target.closest('.srow'))sres.style.display='none';});
-}
-
-/* ---------- contact form ---------- */
-const contactForm=document.getElementById('contactForm');
-if(contactForm){
- contactForm.addEventListener('submit',e=>{
-  e.preventDefault();
-  const okBox=document.getElementById('ok'); if(okBox) okBox.style.display='block';
-  e.target.reset();
- });
-}
-
-/* ---------- reveal-on-scroll ---------- */
-window.revealObserver=new IntersectionObserver((entries)=>{
- entries.forEach(entry=>{
-  if(entry.isIntersecting){
-   entry.target.classList.add('in');
-   window.revealObserver.unobserve(entry.target);
-  }
- });
-},{threshold:.15,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>window.revealObserver.observe(el));
-
-/* ---------- count-up vitals stats ---------- */
-function countUp(el,target,pad){
- const dur=1000,start=performance.now();
- function tick(now){
-  const p=Math.min((now-start)/dur,1);
-  const eased=1-Math.pow(1-p,3);
-  el.textContent=String(Math.round(target*eased)).padStart(pad,'0');
-  if(p<1) requestAnimationFrame(tick);
- }
- requestAnimationFrame(tick);
-}
-window.statObserver=new IntersectionObserver((entries)=>{
- entries.forEach(entry=>{
-  if(!entry.isIntersecting) return;
-  entry.target.querySelectorAll('.stat b').forEach(b=>{
-   const txt=b.textContent.trim();
-   if(/^\d+$/.test(txt)){ countUp(b,parseInt(txt,10),txt.length); }
-  });
-  window.statObserver.unobserve(entry.target);
- });
-},{threshold:.4});
-document.querySelectorAll('.stats').forEach(s=>window.statObserver.observe(s));
-
-/* ---------- AI assistant (Puter.js — free, no API key) ---------- */
-const chatBody=document.getElementById('chatBody');
-const chatInput=document.getElementById('chatInput');
-const sendBtn=document.getElementById('sendBtn');
-const aiStatus=document.getElementById('aiStatus');
-
-const SYSTEM_PROMPT='أنت مساعد تعليمي داخل منصة Nurse Care، موجّه لطلبة التمريض والطب والصيدلة. جاوب بالدارجة المغربية أو بالعربية الفصحى حسب لغة السؤال، بشكل مبسط ومنظم بنقاط عند الإمكان. المحتوى تعليمي عام فقط، ولا تعطي أبداً جرعات أو تشخيصاً أو نصيحة علاجية لحالة شخص حقيقي معين — ذكّر السائل بالرجوع لطبيب أو صيدلي مختص في مثل هذه الحالات. اجعل الجواب مختصراً ومفيداً.';
-
-function addMsg(text,who){
- if(!chatBody) return null;
- const div=document.createElement('div');
- div.className='msg '+who;
- div.textContent=text;
- chatBody.appendChild(div);
- chatBody.scrollTop=chatBody.scrollHeight;
- return div;
-}
-
-function addTyping(){
- if(!chatBody) return null;
- const div=document.createElement('div');
- div.className='msg bot typing';
- div.innerHTML='<i></i><i></i><i></i>';
- chatBody.appendChild(div);
- chatBody.scrollTop=chatBody.scrollHeight;
- return div;
-}
-
-async function askAI(userText){
- if(!userText.trim()) return;
- addMsg(userText,'user');
- if(chatInput) chatInput.value='';
- const typingEl=addTyping();
- if(aiStatus) aiStatus.textContent='كيكتب...';
- try{
-  if(typeof puter==='undefined' || !puter.ai || !puter.ai.chat){
-   throw new Error('puter-unavailable');
-  }
-  const resp=await puter.ai.chat(SYSTEM_PROMPT+'\n\nسؤال الطالب: '+userText);
-  let text='';
-  if(typeof resp==='string') text=resp;
-  else if(resp?.message?.content) text=Array.isArray(resp.message.content)?resp.message.content.map(c=>c.text||'').join(' '):resp.message.content;
-  else if(resp?.text) text=resp.text;
-  else text=JSON.stringify(resp);
-  if(typingEl) typingEl.remove();
-  addMsg(text||'ماقدرتش نلقى جواب، عاود صيغ السؤال من فضلك.','bot');
- }catch(err){
-  if(typingEl) typingEl.remove();
-  addMsg('⚠️ المساعد الذكي ماشي متاح دابا (تأكد من الاتصال بالإنترنت وعاود المحاولة بعد قليل).','bot');
- }finally{
-  if(aiStatus) aiStatus.textContent='جاهز';
- }
-}
-
-if(sendBtn && chatInput){
- sendBtn.addEventListener('click',()=>askAI(chatInput.value));
- chatInput.addEventListener('keydown',e=>{ if(e.key==='Enter') askAI(chatInput.value); });
-}
-document.querySelectorAll('.chip').forEach(chip=>{
- chip.addEventListener('click',()=>askAI(chip.textContent.trim()));
-});
-
-}); /* end DOMContentLoaded */
-
-</script>
-</body>
-</html>
+<secti
