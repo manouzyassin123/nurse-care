@@ -84,8 +84,44 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 @media(prefers-reduced-motion:reduce){.page.show{animation:none}}
 .wrap{max-width:1160px;margin:auto;padding:0 20px}
 
-/* ---------- hero ---------- */
-.hero{padding:76px 20px 10px;text-align:center;position:relative}
+/* ---------- hero: depth parallax scene ---------- */
+.hero{position:relative;overflow:hidden;padding:0}
+.hero-scene{position:relative;width:100%;perspective:1400px;padding:80px 20px 30px}
+.hero-layers{position:relative;transform-style:preserve-3d;transition:transform .2s ease-out;will-change:transform}
+
+.depth-bg{position:absolute;inset:-25% -10%;transform:translateZ(-280px) scale(1.55);background:
+  radial-gradient(circle at 28% 30%, rgba(184,67,47,.15), transparent 55%),
+  radial-gradient(circle at 76% 62%, rgba(47,111,94,.18), transparent 55%);
+  filter:blur(4px);pointer-events:none}
+.depth-grid{position:absolute;inset:-15%;transform:translateZ(-170px) scale(1.35);
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:46px 46px;opacity:.55;pointer-events:none}
+.depth-ring{position:absolute;top:50%;left:50%;width:620px;height:620px;margin:-310px 0 0 -310px;
+  transform:translateZ(-90px);border:1px solid var(--line);border-radius:50%;pointer-events:none}
+.depth-ring::before{content:"";position:absolute;inset:58px;border:1px solid var(--line);border-radius:50%}
+.depth-ring::after{content:"";position:absolute;inset:116px;border:1px dashed rgba(184,67,47,.32);border-radius:50%;animation:ringspin 44s linear infinite}
+@keyframes ringspin{to{transform:rotate(360deg)}}
+
+.depth-glyph{position:absolute;font-size:1.7rem;color:var(--accent);opacity:.5;pointer-events:none}
+.depth-glyph .bob{display:inline-block;animation:glyphbob 5.2s ease-in-out infinite}
+.depth-glyph.g1{top:16%;right:9%}
+.depth-glyph.g2{bottom:22%;right:15%;color:var(--care)}
+.depth-glyph.g2 .bob{animation-delay:-1.6s}
+.depth-glyph.g3{top:20%;left:11%;color:var(--care)}
+.depth-glyph.g3 .bob{animation-delay:-3.1s}
+.depth-glyph.g4{bottom:16%;left:7%}
+.depth-glyph.g4 .bob{animation-delay:-2.2s}
+@keyframes glyphbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@media(max-width:760px){.depth-glyph{display:none}.depth-ring{width:420px;height:420px;margin:-210px 0 0 -210px}}
+
+.depth-content{position:relative;transform:translateZ(45px);text-align:center;max-width:720px;margin:0 auto}
+
+@media(prefers-reduced-motion:reduce){
+ .hero-layers{transition:none}
+ .depth-ring::after{animation:none}
+ .depth-glyph .bob{animation:none}
+}
+
 .hero .badge{display:inline-flex;align-items:center;gap:8px;background:var(--care-soft);color:var(--care);border-radius:99px;padding:7px 16px 7px 8px;font-size:.82rem;font-weight:600}
 .hero .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--care);animation:pulse-dot 1.6s ease-in-out infinite}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.35}}
@@ -218,39 +254,4 @@ header{position:sticky;top:0;z-index:60;background:rgba(246,243,234,.92);backdro
 .chat-input{display:flex;gap:10px;padding:16px}
 .chat-input input{flex:1;padding:13px 16px;border-radius:10px;border:1.5px solid var(--line);outline:none;font-size:.9rem;font-family:inherit;background:var(--paper)}
 .chat-input input:focus{border-color:var(--accent)}
-.chat-input button{background:var(--ink);color:var(--paper);border:none;border-radius:10px;padding:0 24px;font-weight:700;transition:background .2s ease}
-.chat-input button:hover{background:var(--accent)}
-.disc{text-align:center;color:var(--muted);font-size:.75rem;margin-top:14px}
-
-/* ---------- footer ---------- */
-footer{background:var(--ink);color:#AEBDB6;margin-top:40px;padding:46px 20px 22px;text-align:center}
-footer .fl{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:18px 0}
-footer a{cursor:pointer;font-size:.88rem}
-footer a:hover{color:var(--paper)}
-footer .cp{border-top:1px solid rgba(246,243,234,.12);padding-top:16px;font-size:.76rem;font-family:'JetBrains Mono',monospace;direction:ltr}
-</style>
-</head>
-<body>
-
-<header><nav class="nav">
-<a class="logo" data-go="home"><span class="plus">✚</span><span>Nurse Care<small>تعلم التمريض بوضوح</small></span></a>
-<button class="burger" id="burger">☰</button>
-<div class="links" id="links">
-<a data-go="home" class="active">الرئيسية</a><a data-go="cours">الدروس</a><a data-go="pharma">طب وصيدلة</a><a data-go="secours">الإسعافات</a><a data-go="techniques">التقنيات</a><a data-go="ai">المساعد الذكي</a><a data-go="contact" class="cta">تواصل معنا</a>
-</div></nav></header>
-
-<main class="page show" id="page-home">
-<section class="hero"><div class="wrap">
-<span class="badge"><span class="dot"></span> منصة تعليمية لطلبة التمريض</span>
-<h1>تعلم التمريض <em>بطريقة أبسط.</em></h1>
-<p>دروس، ملخصات، تقنيات وإسعافات أولية في تجربة تعليمية منظمة. ركّز على الفكرة المهمة، راجع بسرعة، وابنِ معرفتك خطوة بخطوة.</p>
-<button class="btn" data-go="cours">استكشف المحتوى ←</button><button class="btn ghost" data-go="cours">ابدأ بالدروس</button>
-<div class="stats"><div class="stat"><b>01</b> تعلم منظم</div><div class="stat"><b>04</b> مجالات أساسية</div><div class="stat"><b>24/7</b> مراجعة في أي وقت</div><div class="stat"><b>♥</b> نبض المعرفة</div></div>
-</div>
-<div class="pulse-divider"><svg viewBox="0 0 1160 34" preserveAspectRatio="none">
-<path class="pulse-line live" d="M0,17 L280,17 L305,4 L325,30 L345,17 L370,17 L390,10 L405,17 L430,17 L455,4 L475,30 L495,17 L1160,17"/>
-<path class="pulse-line sweep" d="M0,17 L280,17 L305,4 L325,30 L345,17 L370,17 L390,10 L405,17 L430,17 L455,4 L475,30 L495,17 L1160,17"/>
-</svg></div>
-</section>
-
-<secti
+.chat-input button{background:var(--ink);color:var(--paper);border:none;border-radius:10px;
